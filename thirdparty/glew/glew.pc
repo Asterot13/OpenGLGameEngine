@@ -1,6 +1,6 @@
-prefix=C:/Program Files/OpenGLGameEngine
+prefix=C:/Program Files (x86)/OpenGLGameEngine
 exec_prefix=${prefix}
-libdir=C:/Program Files/OpenGLGameEngine/lib
+libdir=C:/Program Files (x86)/OpenGLGameEngine/lib
 includedir=${prefix}/include
 
 Name: glew

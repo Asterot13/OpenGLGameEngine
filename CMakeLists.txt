@@ -1,7 +1,11 @@
 cmake_minimum_required(VERSION 3.10)
 project(OpenGLGameEngine)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
 set(PROJECT_SOURCE_FILES
         source/main.cpp
+        source/Game.h
+        source/Game.cpp
 )
 
 add_executable(${PROJECT_NAME} ${PROJECT_SOURCE_FILES})

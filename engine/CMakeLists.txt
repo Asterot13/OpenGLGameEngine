@@ -5,10 +5,18 @@ set(PROJECT_SOURCE_FILES
         source/Engine.cpp
         source/Application.h
         source/Application.cpp
+        source/eng.h
 )
 
-include_directories(source)
 add_library(${PROJECT_NAME} ${PROJECT_SOURCE_FILES})
+
+target_include_directories(${PROJECT_NAME}
+        PUBLIC
+        ${CMAKE_CURRENT_SOURCE_DIR}/source
+        PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/glew/include
+        ${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/glfw-3.4/include
+)
 
 # Add GLFW library
 add_subdirectory(thirdparty/glfw-3.4 "${CMAKE_CURRENT_BINARY_DIR}/glfw_build")

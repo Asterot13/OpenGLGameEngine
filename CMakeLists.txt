@@ -10,6 +10,11 @@ set(PROJECT_SOURCE_FILES
 
 add_executable(${PROJECT_NAME} ${PROJECT_SOURCE_FILES})
 
+target_include_directories(${PROJECT_NAME}
+        PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/engine/thirdparty/glew/include
+)
+
 # Add Engine library
 add_subdirectory(engine "${CMAKE_CURRENT_BINARY_DIR}/engine_build")
 

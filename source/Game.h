@@ -10,4 +10,7 @@ public:
     bool Init() override;
 	void Update(float DeltaTime) override;
 	void Destroy() override;
+	
+private:
+	eng::Material m_material;
 };

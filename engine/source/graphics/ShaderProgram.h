@@ -15,7 +15,7 @@ namespace eng
         ShaderProgram& operator=(const ShaderProgram&) = delete;
         ~ShaderProgram();
 
-        void Bind();
+        void Bind() const;
         GLint GetUniformLocation(const std::string& name);
         void SetUniform(const std::string& name, float value);
         

@@ -8,6 +8,8 @@ namespace eng
 {
     class ShaderProgram;
     class Material;
+    class Mesh;
+    
     class GraphicsAPI
     {
     public:
@@ -15,6 +17,11 @@ namespace eng
         
         void BindShaderProgram(ShaderProgram* shaderProgram);
         void BindMaterial(Material* material);
+        void BindMesh(Mesh* mesh);
+        void DrawMesh(Mesh* mesh);
+        
+        void SetClearColor(float r, float g, float b, float a);
+        void ClearBuffers();
         
         GLuint CreateVertexBuffer(const std::vector<float>& vector);
         GLuint CreateIndexBuffer(const std::vector<uint32_t>& indices);

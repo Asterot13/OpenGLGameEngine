@@ -1,5 +1,7 @@
 ﻿#pragma once
 #include <GL/glew.h>
+#include <cstdint>
+#include <vector>
 #include "graphics/VertexLayout.h"
 
 namespace eng
@@ -7,12 +9,10 @@ namespace eng
     class Mesh
     {
     public:
-        Mesh(VertexLayout& layout, const std::vector<float>& vertices, const std::vector<uint32_t>& indices);
-        Mesh(VertexLayout& layout, const std::vector<float>& vertices);
+        Mesh(const VertexLayout& layout, const std::vector<float>& vertices, const std::vector<uint32_t>& indices);
+        Mesh(const VertexLayout& layout, const std::vector<float>& vertices);
         Mesh (const Mesh&) = delete;
         Mesh& operator= (const Mesh&) = delete;
-        
-        Mesh(const VertexLayout& vertexLayout, const std::vector<float>& vertices, const std::vector<unsigned int>& indices);
         ~Mesh();
         
         void Bind();

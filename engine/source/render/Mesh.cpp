@@ -4,7 +4,7 @@
 
 namespace eng
 {
-    Mesh::Mesh(VertexLayout& layout, const std::vector<float>& vertices, const std::vector<uint32_t>& indices)
+    Mesh::Mesh(const VertexLayout& layout, const std::vector<float>& vertices, const std::vector<uint32_t>& indices)
     {
         m_vertexLayout = layout;
         
@@ -32,7 +32,7 @@ namespace eng
         m_indexCount = indices.size();
     }
 
-    Mesh::Mesh(VertexLayout& layout, const std::vector<float>& vertices)
+    Mesh::Mesh(const VertexLayout& layout, const std::vector<float>& vertices)
     {
         m_vertexLayout = layout;
         
@@ -55,6 +55,24 @@ namespace eng
         m_vertexCount = (vertices.size() * sizeof(float)) / layout.stride;
     }
 
+    Mesh::~Mesh()
+    {
+        if (m_EBO != 0)
+        {
+            glDeleteBuffers(1, &m_EBO);
+        }
+
+        if (m_VBO != 0)
+        {
+            glDeleteBuffers(1, &m_VBO);
+        }
+
+        if (m_VAO != 0)
+        {
+            glDeleteVertexArrays(1, &m_VAO);
+        }
+    }
+
     void Mesh::Bind()
     {
         glBindVertexArray(m_VAO);
@@ -64,11 +82,11 @@ namespace eng
     {
         if (m_indexCount > 0)
         {
-            glDrawElements(GL_TRIANGLES, m_indexCount, GL_UNSIGNED_INT, nullptr);
+            glDrawElements(GL_TRIANGLES, static_cast<GLsizei>(m_indexCount), GL_UNSIGNED_INT, nullptr);
         }
         else
         {
-            glDrawArrays(GL_TRIANGLES, 0, m_vertexCount);
+            glDrawArrays(GL_TRIANGLES, 0, static_cast<GLsizei>(m_vertexCount));
         }
     }
 }

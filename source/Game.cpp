@@ -81,10 +81,27 @@ bool Game::Init()
 void Game::Update(float DeltaTime)
 {
 	auto& input = eng::Engine::GetInstance().GetInputManager();
+	
+	// Horizontal movement
 	if (input.IsKeyPressed(GLFW_KEY_A))
 	{
-		std::cout << "[A] button pressed" << std::endl;
+		offsetX -= 0.01f;
 	}
+	else if (input.IsKeyPressed(GLFW_KEY_D))
+	{
+		offsetX += 0.01f;
+	}
+	// Vertical movement
+	if (input.IsKeyPressed(GLFW_KEY_W))
+	{
+		offsetY += 0.01f;
+	}
+	else if (input.IsKeyPressed(GLFW_KEY_S))
+	{
+		offsetY -= 0.01f;
+	}
+	
+	m_material.SetParam("uOffset", offsetX, offsetY);
 	
 	eng::RenderCommand command;
 	command.material = &m_material;

@@ -1,4 +1,5 @@
 ﻿#include "ShaderProgram.h"
+#include <glm/gtc/type_ptr.hpp>
 
 namespace eng
 {
@@ -39,5 +40,11 @@ namespace eng
     {
         auto location = GetUniformLocation(name);
         glUniform2f(location, v0, v1);   
+    }
+
+    void ShaderProgram::SetUniform(const std::string& name, glm::mat4 matrix)
+    {
+        auto location = GetUniformLocation(name);
+        glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(matrix));  
     }
 }

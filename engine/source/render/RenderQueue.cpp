@@ -1,5 +1,8 @@
 ﻿#include "RenderQueue.h"
+
+#include "Material.h"
 #include "graphics/GraphicsAPI.h"
+#include "graphics/ShaderProgram.h"
 
 namespace eng
 {
@@ -13,6 +16,8 @@ namespace eng
         for (auto& command : m_commands)
         {
             graphicsAPI.BindMaterial(command.material);
+            command.material->GetShaderProgram()->SetUniform("uModel", command.modelMatrix);
+            
             graphicsAPI.BindMesh(command.mesh);
             graphicsAPI.DrawMesh(command.mesh);
         }

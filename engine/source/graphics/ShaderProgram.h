@@ -1,7 +1,7 @@
 ﻿#pragma once
 #include <string>
 #include <unordered_map>
-
+#include <glm/mat4x4.hpp>
 #include "GL/glew.h"
 
 namespace eng
@@ -19,6 +19,7 @@ namespace eng
         GLint GetUniformLocation(const std::string& name);
         void SetUniform(const std::string& name, float value);
         void SetUniform(const std::string& name, float v0, float v1);
+        void SetUniform(const std::string& name, glm::mat4 matrix);
         
     private:
         std::unordered_map<std::string, GLint> m_UniformLocationCache;

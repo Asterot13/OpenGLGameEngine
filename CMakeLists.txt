@@ -6,6 +6,8 @@ set(PROJECT_SOURCE_FILES
         source/main.cpp
         source/Game.h
         source/Game.cpp
+        source/BaseObjects/TestObject.h
+        source/BaseObjects/TestObject.cpp
 )
 
 add_executable(${PROJECT_NAME} ${PROJECT_SOURCE_FILES})
@@ -13,6 +15,7 @@ add_executable(${PROJECT_NAME} ${PROJECT_SOURCE_FILES})
 target_include_directories(${PROJECT_NAME}
         PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/engine/thirdparty/glew/include
+        ${CMAKE_CURRENT_SOURCE_DIR}/engine/thirdparty/glm-1.0.1
 )
 
 # Add Engine library

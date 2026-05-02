@@ -2,6 +2,7 @@
 #include <string>
 #include <vector>
 #include <memory>
+#include <type_traits>
 #include "scene/GameObject.h"
 
 namespace eng
@@ -17,13 +18,12 @@ namespace eng
         template<typename T, typename = typename std::enable_if_t<std::is_base_of_v<GameObject, T>>>
         T* CreateGameObject(const std::string& name, GameObject* parent = nullptr)
         {
-            auto* obj = new GameObject();
+            auto* obj = new T();
         
             obj->SetName(name);
             SetParent(obj, parent);
-            m_gameObjects.push_back(std::unique_ptr<GameObject>(obj));
         
-            return static_cast<T*>(obj);
+            return obj;
         }
         
     private:

@@ -12,8 +12,5 @@ public:
 	void Destroy() override;
 	
 private:
-	eng::Material m_material;
-	std::unique_ptr<eng::Mesh> m_mesh;
-	float offsetX = 0.0f;
-	float offsetY = 0.0f;
+	eng::Scene m_scene;
 };

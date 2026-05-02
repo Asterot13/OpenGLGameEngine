@@ -1,10 +1,12 @@
 ﻿#include "Scene.h"
 
+#include <algorithm>
+
 namespace eng
 {
     void Scene::Update(float DeltaTime)
     {
-        for (auto it = m_gameObjects.begin(); it != m_gameObjects.end(); ++it)
+        for (auto it = m_gameObjects.begin(); it != m_gameObjects.end();)
         {
             if ((*it)->IsAlive())
             {
@@ -13,7 +15,7 @@ namespace eng
             }
             else
             {
-                m_gameObjects.erase(it);
+                it = m_gameObjects.erase(it);
             }           
         }
     }
@@ -161,7 +163,6 @@ namespace eng
         
         obj->SetName(name);
         SetParent(obj, parent);
-        m_gameObjects.push_back(std::unique_ptr<GameObject>(obj));
         
         return obj;
     }

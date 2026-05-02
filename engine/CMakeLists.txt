@@ -33,6 +33,7 @@ target_include_directories(${PROJECT_NAME}
         PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/glew/include
         ${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/glfw-3.4/include
+        ${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/glm-1.0.1
 )
 
 # Add GLFW library
@@ -44,9 +45,13 @@ add_subdirectory(thirdparty/glew/build/cmake "${CMAKE_CURRENT_BINARY_DIR}/glew_b
 set_property(TARGET glew_s PROPERTY FOLDER GLEW)
 set_property(TARGET glew   PROPERTY FOLDER GLEW)
 
+# Add GLM library
+add_subdirectory(thirdparty/glm-1.0.1/glm "${CMAKE_CURRENT_BINARY_DIR}/glm_build")
+
 # Link all thirdparty libraries
 target_link_libraries(${PROJECT_NAME} 
     glfw 
     glew_s 
     opengl32
+    glm
 )

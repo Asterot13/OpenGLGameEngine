@@ -33,7 +33,8 @@ TestObject::TestObject()
 	
     auto& GraphicsAPI = eng::Engine::GetInstance().GetGraphicsAPI();
     auto ShaderProgram = GraphicsAPI.CreateShaderProgram(VertexShaderCode, FragmentShaderCode);
-    m_material.SetShaderProgram(ShaderProgram);
+    auto material = std::make_shared<eng::Material>();
+    material->SetShaderProgram(ShaderProgram);
 	
     std::vector<float> vertices = 
     {
@@ -70,8 +71,9 @@ TestObject::TestObject()
     });
 	
     vertexLayout.stride = sizeof(float) * 6;
-	
-    m_mesh = std::make_shared<eng::Mesh>(vertexLayout, vertices, indices);
+	auto mesh = std::make_shared<eng::Mesh>(vertexLayout, vertices, indices);
+    
+    AddComponent(new eng::MeshComponent(mesh, material));
 }
 
 void TestObject::Update(float DeltaTime)
@@ -99,10 +101,5 @@ void TestObject::Update(float DeltaTime)
         Position.y -= 0.01f;
     }
     SetPosition(Position);
-	
-    eng::RenderCommand command;
-    command.material = &m_material;
-    command.mesh = m_mesh.get();
-    command.modelMatrix = GetWorldTransform();
-    eng::Engine::GetInstance().GetRenderQueue().Submit(command);
+    
 }

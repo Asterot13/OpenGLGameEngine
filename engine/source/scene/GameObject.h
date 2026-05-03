@@ -4,6 +4,7 @@
 #include <memory>
 #include <glm/vec3.hpp>
 #include <glm/mat4x4.hpp>
+#include "scene/Component.h"
 
 namespace eng
 {
@@ -17,6 +18,8 @@ namespace eng
         GameObject* GetParent() const;
         bool IsAlive() const;
         void MarkForDestroy();
+        
+        void AddComponent(Component* component);
         
         // Transform postion
         const glm::vec3 GetPosition() const;
@@ -38,6 +41,7 @@ namespace eng
         std::string m_name;
         GameObject* m_parent = nullptr;
         std::vector<std::unique_ptr<GameObject>> m_children;
+        std::vector<std::unique_ptr<Component>> m_components;
         bool m_isAlive = true;
         
         // Transforms

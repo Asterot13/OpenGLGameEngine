@@ -4,6 +4,8 @@
 #include <GLFW/glfw3.h>
 #include <iostream>
 
+#include "scene/Scene.h"
+
 namespace eng
 {
     void keyCallBack(GLFWwindow* window, int key, int scancode, int action, int mods)
@@ -86,7 +88,17 @@ namespace eng
             m_graphicsAPI.SetClearColor(1.f, 1.f, 1.f, 1.f);
             m_graphicsAPI.ClearBuffers();
             
-            m_renderQueue.Draw(m_graphicsAPI);
+            CameraData cameraData;
+            
+            if (m_currentScene)
+            {
+                if (auto cameraObject = m_currentScene->GetMainCamera())
+                {
+                    // logic for matrices
+                }
+            }
+            
+            m_renderQueue.Draw(m_graphicsAPI, cameraData);
             
             glfwSwapBuffers(m_window);
         }
@@ -108,7 +120,7 @@ namespace eng
         m_application.reset(app);
     }
 
-    Application* Engine::GetApplication()
+    Application* Engine::GetApplication() const
     {
         return m_application.get();
     }
@@ -126,5 +138,15 @@ namespace eng
     RenderQueue& Engine::GetRenderQueue()
     {
         return m_renderQueue;
+    }
+
+    Scene* Engine::GetScene() const
+    {
+        return m_currentScene.get();
+    }
+
+    void Engine::SetScene(Scene* scene)
+    {
+        m_currentScene.reset(scene);
     }
 }

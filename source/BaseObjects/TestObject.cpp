@@ -9,13 +9,15 @@ TestObject::TestObject()
         layout (location = 1) in vec3 color;
         
         uniform mat4 uModel;
+        uniform mat4 uView;
+        uniform mat4 uProjection;
 
         out vec3 vColor;
 
         void main()
         {
             vColor = color;
-            gl_Position = uModel * vec4(position, 1.0);
+            gl_Position = uProjection * uView * uModel * vec4(position, 1.0); //MVP Transformation (Model, View, Projection)
         }
     )";
 	

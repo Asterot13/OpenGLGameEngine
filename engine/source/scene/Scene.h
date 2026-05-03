@@ -14,6 +14,10 @@ namespace eng
         void Clear();
         bool SetParent(GameObject* game_object, GameObject* parent);
         GameObject* CreateGameObject(const std::string& name, GameObject* parent = nullptr);
+        
+        //Camera
+        void SetMainCamera(GameObject* camera);
+        GameObject* GetMainCamera() const;
 
         template<typename T, typename = typename std::enable_if_t<std::is_base_of_v<GameObject, T>>>
         T* CreateGameObject(const std::string& name, GameObject* parent = nullptr)
@@ -28,6 +32,7 @@ namespace eng
         
     private:
         std::vector<std::unique_ptr<GameObject>> m_gameObjects;
+        GameObject* m_mainCamera = nullptr;
     };
 }
 

@@ -9,6 +9,8 @@ struct GLFWwindow;
 namespace eng
 {
     class Application;
+    class Scene;
+    
     class Engine
     {
         Engine() = default;
@@ -24,10 +26,13 @@ namespace eng
         void Destroy();
         
         void SetApplication(Application* app);
-        Application* GetApplication();
+        Application* GetApplication() const;
         InputManager& GetInputManager();
         GraphicsAPI& GetGraphicsAPI();
         RenderQueue& GetRenderQueue();
+        
+        Scene* GetScene() const;
+        void SetScene(Scene* scene);
         
     private:
         std::unique_ptr<Application> m_application;
@@ -36,5 +41,6 @@ namespace eng
         InputManager m_inputManager;
         GraphicsAPI m_graphicsAPI;
         RenderQueue m_renderQueue;
+        std::unique_ptr<Scene> m_currentScene;
     };   
 }

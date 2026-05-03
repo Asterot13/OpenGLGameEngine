@@ -166,4 +166,14 @@ namespace eng
         
         return obj;
     }
+
+    void Scene::SetMainCamera(GameObject* camera)
+    {
+        m_mainCamera = camera;
+    }
+
+    GameObject* Scene::GetMainCamera() const
+    {
+        return m_mainCamera;
+    }
 }

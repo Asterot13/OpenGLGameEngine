@@ -3,8 +3,8 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include <iostream>
-
 #include "scene/Scene.h"
+#include "scene/components/CameraComponent.h"
 
 namespace eng
 {
@@ -90,11 +90,21 @@ namespace eng
             
             CameraData cameraData;
             
+            int width, height;
+            glfwGetWindowSize(m_window, &width, &height);
+            float aspectRatio = static_cast<float>(width) / static_cast<float>(height);
+            
             if (m_currentScene)
             {
                 if (auto cameraObject = m_currentScene->GetMainCamera())
                 {
                     // logic for matrices
+                    auto CameraComponent = cameraObject->GetComponent<class CameraComponent>();
+                    if (CameraComponent)
+                    {
+                        cameraData.viewMatrix = CameraComponent->GetViewMatrix();
+                        cameraData.projectionMatrix = CameraComponent->GetProjectionMatrix(aspectRatio);
+                    }
                 }
             }
             

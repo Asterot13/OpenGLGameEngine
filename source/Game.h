@@ -1,6 +1,5 @@
 ﻿#pragma once
 #include "eng.h"
-#include <memory>
 
 class Game : public eng::Application
 {
@@ -12,5 +11,5 @@ public:
 	void Destroy() override;
 	
 private:
-	eng::Scene m_scene;
+	eng::Scene* m_scene = nullptr;
 };

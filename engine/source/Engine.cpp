@@ -21,6 +21,26 @@ namespace eng
         }
     }
     
+    void mouseButtonCallBack(GLFWwindow* window, int button, int action, int mods)
+    {
+        auto& inputManager = Engine::GetInstance().GetInputManager();
+        if (action == GLFW_PRESS)
+        {
+            inputManager.SetMouseButtonPressed(button, true);
+        }
+        else if (action == GLFW_RELEASE)
+        {
+            inputManager.SetMouseButtonPressed(button, false);
+        }
+    }
+    
+    void cursorPositionCallBack(GLFWwindow* window, double xpos, double ypos)
+    {
+        auto& inputManager = Engine::GetInstance().GetInputManager();
+        inputManager.SetMousePositionPrev(inputManager.GetMousePositionCurrent());
+        inputManager.SetMousePositionCurrent(glm::vec2(static_cast<float>(xpos), static_cast<float>(ypos)));
+    }
+    
     Engine& Engine::GetInstance()
     {
         static Engine instance;
@@ -54,6 +74,8 @@ namespace eng
         }
         
         glfwSetKeyCallback(m_window, keyCallBack);
+        glfwSetMouseButtonCallback(m_window, mouseButtonCallBack);
+        glfwSetCursorPosCallback(m_window, cursorPositionCallBack);
         
         glfwMakeContextCurrent(m_window);
         
@@ -111,6 +133,8 @@ namespace eng
             m_renderQueue.Draw(m_graphicsAPI, cameraData);
             
             glfwSwapBuffers(m_window);
+            
+            m_inputManager.SetMousePositionPrev(m_inputManager.GetMousePositionCurrent());
         }
     }
 

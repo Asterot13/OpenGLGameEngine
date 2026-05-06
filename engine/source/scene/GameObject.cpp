@@ -66,14 +66,14 @@ namespace eng
         m_position = position;       
     }
 
-    const glm::vec3 GameObject::GetRotation() const
+    const glm::quat GameObject::GetRotation() const
     {
         return m_rotation;      
     }
 
-    void GameObject::SetRotation(const glm::vec3& position)
+    void GameObject::SetRotation(const glm::quat& rotation)
     {
-        m_rotation = position;      
+        m_rotation = rotation;      
     }
 
     const glm::vec3 GameObject::GetScale() const
@@ -94,9 +94,7 @@ namespace eng
         mat = glm::translate(mat, m_position);
         
         //Rotation
-        mat = glm::rotate(mat, m_rotation.x, glm::vec3(1.0f, 0.0f, 0.0f)); // X - axis
-        mat = glm::rotate(mat, m_rotation.y, glm::vec3(0.0f, 1.0f, 0.0f)); // Y - axis
-        mat = glm::rotate(mat, m_rotation.z, glm::vec3(0.0f, 0.0f, 1.0f)); // Z - axis
+        mat = mat * glm::mat4_cast(m_rotation);
         
         //Scale
         mat = glm::scale(mat, m_scale);

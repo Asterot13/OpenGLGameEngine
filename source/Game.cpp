@@ -1,9 +1,27 @@
 ﻿#include "Game.h"
 #include "BaseObjects/TestObject.h"
 #include "scene/components/CameraComponent.h"
+#include <iostream>
+#include <stb_image.h>
 
 bool Game::Init()
 {
+	auto& fileSystem = eng::Engine::GetInstance().GetFileSystem();
+	auto path = fileSystem.GetAssetsFolder() / "brick.png";
+	
+	int width, height, nrChannels;
+	unsigned char* data = stbi_load(path.string().c_str(), &width, &height, &nrChannels, 0);
+	if (data)
+	{
+		std::cout << "Loaded texture: " << path.string() << std::endl;
+		stbi_image_free(data);
+	}
+	else
+	{
+		std::cout << "Failed to load texture: " << path.string()
+			<< " (" << stbi_failure_reason() << ")" << std::endl;
+	}
+	
 	m_scene = new eng::Scene();
 	
 	auto Camera = m_scene->CreateGameObject("Camera");

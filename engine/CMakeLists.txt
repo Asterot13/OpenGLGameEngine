@@ -1,5 +1,16 @@
 ﻿cmake_minimum_required(VERSION 3.10)
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED True)
+
 project(Engine)
+
+set(ASSETS_DIR "${CMAKE_SOURCE_DIR}/assets")
+
+configure_file(
+        ${PROJECT_SOURCE_DIR}/config.h.in
+        ${PROJECT_BINARY_DIR}/config.h
+)
+
 set(PROJECT_SOURCE_FILES
         source/Engine.h
         source/Engine.cpp
@@ -30,6 +41,8 @@ set(PROJECT_SOURCE_FILES
         source/scene/components/CameraComponent.cpp
         source/scene/components/PlayerControllerComponent.h
         source/scene/components/PlayerControllerComponent.cpp
+        source/io/FileSystem.h
+        source/io/FileSystem.cpp
         #source/eng.h
 )
 
@@ -42,6 +55,7 @@ target_include_directories(${PROJECT_NAME}
         ${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/glew/include
         ${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/glfw-3.4/include
         ${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/glm-1.0.1
+        ${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/stb_image
 )
 
 # Add GLFW library
@@ -55,6 +69,8 @@ set_property(TARGET glew   PROPERTY FOLDER GLEW)
 
 # Add GLM library
 add_subdirectory(thirdparty/glm-1.0.1/glm "${CMAKE_CURRENT_BINARY_DIR}/glm_build")
+
+target_include_directories(${PROJECT_NAME} PRIVATE ${PROJECT_BINARY_DIR})
 
 # Link all thirdparty libraries
 target_link_libraries(${PROJECT_NAME} 

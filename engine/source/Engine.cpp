@@ -175,6 +175,11 @@ namespace eng
         return m_renderQueue;
     }
 
+    FileSystem& Engine::GetFileSystem()
+    {
+        return m_fileSystem;
+    }
+
     Scene* Engine::GetScene() const
     {
         return m_currentScene.get();

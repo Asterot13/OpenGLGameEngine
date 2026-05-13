@@ -1,9 +1,24 @@
 ﻿#include "Texture.h"
+#include <stb_image.h>
+#include "Engine.h"
 
 namespace eng
 {
     Texture::Texture(int width, int height, int numChannels, unsigned char* data) 
         : m_Width(width), m_Height(height), m_NumChannels(numChannels)
+    {
+        Init(width, height, numChannels, data);
+    }
+
+    Texture::~Texture()
+    {
+        if (m_TextureID > 0)
+        {
+            glDeleteTextures(1, &m_TextureID);
+        }
+    }
+
+    void Texture::Init(int width, int height, int numChannels, unsigned char* data)
     {
         GLenum format = GL_RGB;
         if (numChannels == 4)
@@ -29,16 +44,29 @@ namespace eng
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     }
 
-    Texture::~Texture()
-    {
-        if (m_TextureID > 0)
-        {
-            glDeleteTextures(1, &m_TextureID);
-        }
-    }
-
     GLuint Texture::GetTextureID() const
     {
         return m_TextureID;
+    }
+
+    std::shared_ptr<Texture> Texture::LoadFromFile(const std::string& path)
+    {
+        int width, height, numChannels;
+        auto& fileSystem = Engine::GetInstance().GetFileSystem();
+        auto fullpath = fileSystem.GetAssetsFolder() / path;
+        if (!std::filesystem::exists(fullpath))
+        {
+            return nullptr;
+        }
+        
+        std::shared_ptr<Texture> result;
+        unsigned char* data = stbi_load(fullpath.string().c_str(), &width, &height, &numChannels, 0);
+        if (data)
+        {
+            result = std::make_shared<eng::Texture>(width, height, numChannels, data);
+            stbi_image_free(data);
+        }
+        
+        return result;
     }
 }

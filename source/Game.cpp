@@ -2,29 +2,13 @@
 #include "BaseObjects/TestObject.h"
 #include "scene/components/CameraComponent.h"
 #include <iostream>
-#include <stb_image.h>
 
 bool Game::Init()
 {
-	auto& fileSystem = eng::Engine::GetInstance().GetFileSystem();
-	auto path = fileSystem.GetAssetsFolder() / "brick.png";
-	
-	int width, height, nrChannels;
-	unsigned char* data = stbi_load(path.string().c_str(), &width, &height, &nrChannels, 0);
-	std::shared_ptr<eng::Texture> texture;
-	if (data)
-	{
-		std::cout << "Loaded texture: " << path.string() << std::endl;
-		texture = std::make_shared<eng::Texture>(width, height, nrChannels, data);
-		stbi_image_free(data);
-	}
-	else
-	{
-		std::cout << "Failed to load texture: " << path.string()
-			<< " (" << stbi_failure_reason() << ")" << std::endl;
-	}
-	
 	m_scene = new eng::Scene();
+	auto& fileSystem = eng::Engine::GetInstance().GetFileSystem();
+	
+	auto texture = eng::Texture::LoadFromFile("brick.png");
 	
 	auto Camera = m_scene->CreateGameObject("Camera");
 	Camera->AddComponent(new eng::CameraComponent());
@@ -34,42 +18,8 @@ bool Game::Init()
 	m_scene->SetMainCamera(Camera);
 	m_scene->CreateGameObject<TestObject>("TestObject");
 	
-	    std::string VertexShaderCode = R"(
-        #version 330 core
-        layout (location = 0) in vec3 position;
-        layout (location = 1) in vec3 color;
-		layout (location = 2) in vec2 uv;
-        
-        uniform mat4 uModel;
-        uniform mat4 uView;
-        uniform mat4 uProjection;
-
-        out vec3 vColor;
-		out vec2 vUV;
-
-        void main()
-        {
-            vColor = color;
-			vUV = uv;
-            gl_Position = uProjection * uView * uModel * vec4(position, 1.0); //MVP Transformation (Model, View, Projection)
-        }
-    )";
-	
-    std::string FragmentShaderCode = R"(
-        #version 330 core
-        out vec4 FragColor;
-
-        in vec3 vColor;
-		in vec2 vUV;
-
-		uniform sampler2D brickTexture;
-
-        void main()
-        {
-			vec4 texColor = texture(brickTexture, vUV);
-            FragColor = texColor * vec4(vColor, 1.0f);
-        }
-    )";
+	std::string VertexShaderCode = fileSystem.LoadAssetFileText("shaders/vertex.glsl");
+	std::string FragmentShaderCode = fileSystem.LoadAssetFileText("shaders/fragment.glsl");
 	
     auto& GraphicsAPI = eng::Engine::GetInstance().GetGraphicsAPI();
     auto ShaderProgram = GraphicsAPI.CreateShaderProgram(VertexShaderCode, FragmentShaderCode);

@@ -1,6 +1,7 @@
 #include "FileSystem.h"
 #include "config.h"
 #include <cstdint>
+#include <fstream>
 #include <string>
 
 #ifdef _WIN32
@@ -46,5 +47,35 @@ namespace eng
 		}
 #endif
 		return executableAssetsPath;
+	}
+
+	std::vector<char> FileSystem::LoadFile(const std::filesystem::path& path)
+	{
+		std::ifstream file(path, std::ios::ate | std::ios::binary);
+		if (!file.is_open())
+		{
+			return {};
+		}
+		
+		size_t fileSize = file.tellg();
+		file.seekg(0);
+		std::vector<char> buffer(fileSize);
+		if (!file.read(buffer.data(), fileSize).good())
+		{
+			return {};
+		}
+		
+		return buffer;
+	}
+
+	std::vector<char> FileSystem::LoadAssetFile(const std::string& relativePath)
+	{
+		return LoadFile(GetAssetsFolder() / relativePath);
+	}
+
+	std::string FileSystem::LoadAssetFileText(const std::string& relativePath)
+	{
+		auto buffer = LoadAssetFile(relativePath);
+		return std::string(buffer.begin(), buffer.end());
 	}
 }

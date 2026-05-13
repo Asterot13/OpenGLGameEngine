@@ -58,6 +58,7 @@ target_include_directories(${PROJECT_NAME}
         ${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/glfw-3.4/include
         ${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/glm-1.0.1
         ${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/stb_image
+        ${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/json
 )
 
 # Add GLFW library

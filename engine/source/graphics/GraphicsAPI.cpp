@@ -15,7 +15,7 @@ namespace eng
     std::shared_ptr<ShaderProgram> GraphicsAPI::CreateShaderProgram(const std::string& vertexShaderSource,
                                                                     const std::string& fragmentShaderSource)
     {
-        // Creating and compiling vector shader
+        // Creating and compiling vertex shader
         GLuint VertexShader = glCreateShader(GL_VERTEX_SHADER);
         const char* VertexShaderCStr = vertexShaderSource.c_str();
         glShaderSource(VertexShader, 1, &VertexShaderCStr, nullptr);

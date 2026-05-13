@@ -4,3 +4,5 @@ build/
 *.pdb
 *.obj
 *.exe
+
+CMakeLists.txt.DotSettings.user

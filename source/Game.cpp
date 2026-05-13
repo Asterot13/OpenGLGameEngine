@@ -18,15 +18,7 @@ bool Game::Init()
 	m_scene->SetMainCamera(Camera);
 	m_scene->CreateGameObject<TestObject>("TestObject");
 	
-	std::string VertexShaderCode = fileSystem.LoadAssetFileText("shaders/vertex.glsl");
-	std::string FragmentShaderCode = fileSystem.LoadAssetFileText("shaders/fragment.glsl");
-	
-    auto& GraphicsAPI = eng::Engine::GetInstance().GetGraphicsAPI();
-    auto ShaderProgram = GraphicsAPI.CreateShaderProgram(VertexShaderCode, FragmentShaderCode);
-	
-    auto material = std::make_shared<eng::Material>();
-    material->SetShaderProgram(ShaderProgram);
-	material->SetParam("brickTexture", texture);
+    auto material = eng::Material::Load("materials/brick.mat");
 	
     std::vector<float> vertices = 
     {

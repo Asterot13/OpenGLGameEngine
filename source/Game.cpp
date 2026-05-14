@@ -16,7 +16,7 @@ bool Game::Init()
 	Camera->SetPosition(glm::vec3(0.0f, 0.0f, 2.0f));
 	
 	m_scene->SetMainCamera(Camera);
-	m_scene->CreateGameObject<TestObject>("TestObject");
+	//m_scene->CreateGameObject<TestObject>("TestObject");
 	
     auto material = eng::Material::Load("materials/brick.mat");
 	
@@ -127,6 +127,13 @@ bool Game::Init()
 	GameObjectC->SetPosition(glm::vec3(-2.0f, 0.0f, 0.0f));
 	GameObjectC->SetRotation(glm::vec3(1.0f, 0.0f, 1.0f));
 	GameObjectC->SetScale(glm::vec3(1.5f, 1.5f, 1.5f));
+	
+	auto SuzanneMesh = eng::Mesh::Load("models/Suzanne.gltf");
+	auto SuzanneMaterial = eng::Material::Load("materials/suzanne.mat");
+	
+	auto SuzanneGameObject = m_scene->CreateGameObject("Suzanne");
+	SuzanneGameObject->AddComponent(new eng::MeshComponent(SuzanneMesh, SuzanneMaterial));
+	SuzanneGameObject->SetPosition(glm::vec3(0.0f, 0.0f, -5.0f));
 	
 	eng::Engine::GetInstance().SetScene(m_scene);
 	return true;

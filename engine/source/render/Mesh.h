@@ -1,6 +1,8 @@
 ﻿#pragma once
 #include <GL/glew.h>
 #include <cstdint>
+#include <memory>
+#include <string>
 #include <vector>
 #include "graphics/VertexLayout.h"
 
@@ -14,6 +16,8 @@ namespace eng
         Mesh (const Mesh&) = delete;
         Mesh& operator= (const Mesh&) = delete;
         ~Mesh();
+        
+        static std::shared_ptr<Mesh> Load(const std::string& path);
         
         void Bind();
         void Draw();

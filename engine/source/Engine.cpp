@@ -112,6 +112,7 @@ namespace eng
             m_graphicsAPI.ClearBuffers();
             
             CameraData cameraData;
+            std::vector<LightData> lights;
             
             int width, height;
             glfwGetWindowSize(m_window, &width, &height);
@@ -129,9 +130,11 @@ namespace eng
                         cameraData.projectionMatrix = CameraComponent->GetProjectionMatrix(aspectRatio);
                     }
                 }
+                
+                lights = m_currentScene->CollectLights();
             }
             
-            m_renderQueue.Draw(m_graphicsAPI, cameraData);
+            m_renderQueue.Draw(m_graphicsAPI, cameraData, lights);
             
             glfwSwapBuffers(m_window);
             

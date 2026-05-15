@@ -19,6 +19,8 @@ namespace eng
         
         static std::shared_ptr<Mesh> Load(const std::string& path);
         
+        static std::shared_ptr<Mesh> CreateCube();
+        
         void Bind();
         void Draw();
         

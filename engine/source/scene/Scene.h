@@ -3,6 +3,8 @@
 #include <vector>
 #include <memory>
 #include <type_traits>
+
+#include "Common.h"
 #include "scene/GameObject.h"
 
 namespace eng
@@ -18,6 +20,8 @@ namespace eng
         //Camera
         void SetMainCamera(GameObject* camera);
         GameObject* GetMainCamera() const;
+        
+        std::vector<LightData> CollectLights();
 
         template<typename T, typename = typename std::enable_if_t<std::is_base_of_v<GameObject, T>>>
         T* CreateGameObject(const std::string& name, GameObject* parent = nullptr)
@@ -29,6 +33,9 @@ namespace eng
         
             return obj;
         }
+        
+    private:
+        void CollectLightsRecursive(GameObject* obj, std::vector<LightData>& lights);
         
     private:
         std::vector<std::unique_ptr<GameObject>> m_gameObjects;

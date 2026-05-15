@@ -44,10 +44,16 @@ namespace eng
         glUniform2f(location, v0, v1);   
     }
 
-    void ShaderProgram::SetUniform(const std::string& name, glm::mat4 matrix)
+    void ShaderProgram::SetUniform(const std::string& name, const glm::mat4 matrix)
     {
         auto location = GetUniformLocation(name);
         glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(matrix));  
+    }
+
+    void ShaderProgram::SetUniform(const std::string& name, const glm::vec3 value)
+    {
+        auto location = GetUniformLocation(name);
+        glUniform3fv(location, 1, glm::value_ptr(value)); 
     }
 
     void ShaderProgram::SetTexture(const std::string& name, Texture* texture)

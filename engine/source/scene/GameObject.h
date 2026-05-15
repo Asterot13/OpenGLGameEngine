@@ -38,6 +38,7 @@ namespace eng
         
         // Transform postion
         const glm::vec3 GetPosition() const;
+        glm::vec3 GetWorldPosition() const;
         void SetPosition(const glm::vec3& position);
         // Transform rotation
         const glm::quat GetRotation() const;
@@ -48,7 +49,7 @@ namespace eng
         
         glm::mat4 GetLocalTransform() const;
         glm::mat4 GetWorldTransform() const;
-        
+
     protected:
         GameObject() = default;
         

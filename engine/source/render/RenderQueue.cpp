@@ -11,7 +11,7 @@ namespace eng
         m_commands.push_back(command);
     }
 
-    void RenderQueue::Draw(GraphicsAPI& graphicsAPI, const CameraData& cameraData)
+    void RenderQueue::Draw(GraphicsAPI& graphicsAPI, const CameraData& cameraData, const std::vector<LightData>& lights)
     {
         for (auto& command : m_commands)
         {
@@ -20,6 +20,14 @@ namespace eng
             shaderProgram->SetUniform("uModel", command.modelMatrix);
             shaderProgram->SetUniform("uView", cameraData.viewMatrix);
             shaderProgram->SetUniform("uProjection", cameraData.projectionMatrix);
+            
+            if (!lights.empty())
+            {
+                auto Light = lights[0];
+                shaderProgram->SetUniform("uLight.position", Light.position);
+                shaderProgram->SetUniform("uLight.color", Light.color);
+            }
+            
             graphicsAPI.BindMesh(command.mesh);
             graphicsAPI.DrawMesh(command.mesh);
         }

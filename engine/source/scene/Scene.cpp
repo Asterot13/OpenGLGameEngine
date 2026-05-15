@@ -1,6 +1,6 @@
 ﻿#include "Scene.h"
-
 #include <algorithm>
+#include "components/LightComponent.h"
 
 namespace eng
 {
@@ -175,5 +175,31 @@ namespace eng
     GameObject* Scene::GetMainCamera() const
     {
         return m_mainCamera;
+    }
+
+    std::vector<LightData> Scene::CollectLights()
+    {
+        std::vector<LightData> lights;
+        for (auto& obj : m_gameObjects)
+        {
+            CollectLightsRecursive(obj.get(), lights);
+        }
+        return lights;       
+    }
+
+    void Scene::CollectLightsRecursive(GameObject* obj, std::vector<LightData>& lights)
+    {
+        if (auto light = obj->GetComponent<LightComponent>())
+        {
+            LightData lightData;
+            lightData.position = obj->GetWorldPosition();
+            lightData.color = light->GetColor();
+            lights.push_back(lightData);
+        }
+        
+        for (auto& child : obj->m_children)
+        {
+            CollectLightsRecursive(child.get(), lights);
+        }       
     }
 }

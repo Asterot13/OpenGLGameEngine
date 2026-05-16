@@ -12,7 +12,7 @@ namespace eng
     {
     public:
         ShaderProgram* GetShaderProgram() const;
-        void SetShaderProgram(std::shared_ptr<ShaderProgram>& shaderProgram);
+        void SetShaderProgram(const std::shared_ptr<ShaderProgram>& shaderProgram);
         void SetParam(const std::string& name, float value);
         void SetParam(const std::string& name, float v0, float v1);
         void SetParam(const std::string& name, std::shared_ptr<Texture>& texture);

@@ -12,7 +12,7 @@ namespace eng
         return m_shaderProgram.get();
     }
 
-    void Material::SetShaderProgram(std::shared_ptr<ShaderProgram>& shaderProgram)
+    void Material::SetShaderProgram(const std::shared_ptr<ShaderProgram>& shaderProgram)
     {
         m_shaderProgram = shaderProgram;
     }

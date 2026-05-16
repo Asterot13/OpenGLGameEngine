@@ -9,6 +9,7 @@
 
 namespace eng
 {
+    class Scene;
     class GameObject
     {
     public:
@@ -17,6 +18,8 @@ namespace eng
         const std::string& GetName() const;
         void SetName(const std::string& name);
         GameObject* GetParent() const;
+        bool SetParent(GameObject* parent);
+        Scene* GetScene() const;
         bool IsAlive() const;
         void MarkForDestroy();
         
@@ -47,6 +50,8 @@ namespace eng
         const glm::vec3 GetScale() const;
         void SetScale(const glm::vec3& scale);
         
+        static GameObject* LoadGLTF(const std::string& path);
+        
         glm::mat4 GetLocalTransform() const;
         glm::mat4 GetWorldTransform() const;
 
@@ -56,6 +61,7 @@ namespace eng
     private:
         std::string m_name;
         GameObject* m_parent = nullptr;
+        Scene* m_scene = nullptr;
         std::vector<std::unique_ptr<GameObject>> m_children;
         std::vector<std::unique_ptr<Component>> m_components;
         bool m_isAlive = true;

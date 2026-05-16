@@ -15,6 +15,7 @@ set(PROJECT_SOURCE_FILES
         source/Engine.h
         source/Engine.cpp
         source/Common.h
+        source/GLTF.cpp
         source/Application.h
         source/Application.cpp
         source/input/InputManager.h

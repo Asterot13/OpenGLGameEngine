@@ -20,13 +20,16 @@ namespace eng
 
     void Texture::Init(int width, int height, int numChannels, unsigned char* data)
     {
+        GLint internalFormat = GL_RGB;
         GLenum format = GL_RGB;
         if (numChannels == 4)
         {
+            internalFormat = GL_RGBA;
             format = GL_RGBA;
         }
         else if (numChannels == 1)
         {
+            internalFormat = GL_RED;
             format = GL_RED;
         }
 
@@ -34,7 +37,7 @@ namespace eng
         glBindTexture(GL_TEXTURE_2D, m_TextureID);
         
         glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-        glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
+        glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, width, height, 0, format, GL_UNSIGNED_BYTE, data);
         glGenerateMipmap(GL_TEXTURE_2D);
         
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
@@ -68,5 +71,18 @@ namespace eng
         }
         
         return result;
+    }
+
+    std::shared_ptr<Texture> TextureManager::GetOrLoadTexture(const std::string& path)
+    {
+        auto it = m_Textures.find(path);
+        if (it != m_Textures.end())
+        {
+            return it->second;
+        }
+        
+        auto texture = Texture::LoadFromFile(path);
+        m_Textures[path] = texture;
+        return texture;
     }
 }

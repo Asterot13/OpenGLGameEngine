@@ -302,9 +302,8 @@ namespace eng
                         {
                             if (texture->image->uri)
                             {
-                                //auto path = relativeFolderPath / texture->image->uri;
-                                auto path = Engine::GetInstance().GetFileSystem().GetAssetsFolder() / "textures"/ texture->image->uri;
-                                auto tex = Texture::LoadFromFile(path.string());
+                                auto path = relativeFolderPath / texture->image->uri;
+                                auto tex = Engine::GetInstance().GetTextureManager().GetOrLoadTexture(path.string());
                                 material->SetParam("baseColorTexture", tex);
                             }
                         }
@@ -317,9 +316,8 @@ namespace eng
                         {
                             if (texture->image->uri)
                             {
-                                //auto path = relativeFolderPath / texture->image->uri;
-                                auto path = Engine::GetInstance().GetFileSystem().GetAssetsFolder() / "textures"/ texture->image->uri;
-                                auto tex = Texture::LoadFromFile(path.string());
+                                auto path = relativeFolderPath / texture->image->uri;
+                                auto tex = Engine::GetInstance().GetTextureManager().GetOrLoadTexture(path.string());
                                 material->SetParam("baseColorTexture", tex);
                             }
                         }

@@ -148,6 +148,7 @@ namespace eng
             };
 
             uniform Light uLight;
+            uniform vec3 uCameraPosition;
 
             out vec4 FragColor;
 
@@ -159,15 +160,25 @@ namespace eng
 
             void main()
             {
-                // Calculate diffuse lighting
                 vec3 normal = normalize(vNormal);
+
+                // Calculate diffuse lighting
                 vec3 lightDir = normalize(uLight.position - vFragPos);
                 float diff = max(dot(normal, lightDir), 0.0);
-                vec3 diffuse = diff * uLight.color;    
+                vec3 diffuse = diff * uLight.color;
 
-                //Apply texture with diffuse lighting
-                vec4 texColor = texture(baseColorTexture, vUV);
-                FragColor = texColor * vec4(diffuse, 1.0);
+	            // Calculate specular lighting
+	            vec3 viewDir = normalize(uCameraPosition - vFragPos);
+	            vec3 reflectDir = reflect(-lightDir, normal);
+	            float spec = pow(max(dot(viewDir, reflectDir), 0.0), 32);
+	            float specularStrength = 0.5f;
+	            vec3 specular = specularStrength * spec * uLight.color;
+
+	            vec3 result = diffuse + specular;
+
+                //Apply texture with lightning
+	            vec4 texColor = texture(baseColorTexture, vUV);
+                FragColor = texColor * vec4(result, 1.0);
             })";
             
             m_defaultShaderProgram = CreateShaderProgram(vertexShaderSource, fragmentShaderSource);

@@ -17,8 +17,6 @@ namespace eng
         Mesh& operator= (const Mesh&) = delete;
         ~Mesh();
         
-        //static std::shared_ptr<Mesh> Load(const std::string& path);
-        
         static std::shared_ptr<Mesh> CreateCube();
         
         void Bind();

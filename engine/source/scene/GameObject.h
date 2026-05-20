@@ -18,12 +18,17 @@ namespace eng
         const std::string& GetName() const;
         void SetName(const std::string& name);
         GameObject* GetParent() const;
+        GameObject* FindChildByName(const std::string& name);
         bool SetParent(GameObject* parent);
         Scene* GetScene() const;
+        
         bool IsAlive() const;
         void MarkForDestroy();
         
         void AddComponent(Component* component);
+        
+        void SetActive(bool active);
+        bool IsActive() const;
         
         template<typename T, typename = typename std::enable_if_t<std::is_base_of_v<Component, T>>>
         T* GetComponent()
@@ -65,6 +70,7 @@ namespace eng
         std::vector<std::unique_ptr<GameObject>> m_children;
         std::vector<std::unique_ptr<Component>> m_components;
         bool m_isAlive = true;
+        bool m_isActive = true;
         
         // Transforms
         glm::vec3 m_position = glm::vec3(0.0f);

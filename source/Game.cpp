@@ -45,6 +45,21 @@ bool Game::Init()
 	Gun->SetPosition(glm::vec3(0.75f, -0.5f, -0.75f));
 	Gun->SetScale(glm::vec3(-1.0f, 1.0f, 1.0f));
 	
+	if (auto animComp = Gun->GetComponent<eng::AnimationComponent>())
+	{
+		if (auto bullet = Gun->FindChildByName("bullet_33"))
+		{
+			bullet->SetActive(false);
+		}
+		
+		if (auto fire = Gun->FindChildByName("BOOM_35"))
+		{
+			fire->SetActive(false);
+		}
+		
+		animComp->Play("shoot");
+	}
+	
 	auto Light = m_scene->CreateGameObject("Light");
 	auto LightComponent = new eng::LightComponent();
 	LightComponent->SetColor(glm::vec3(1.0f));

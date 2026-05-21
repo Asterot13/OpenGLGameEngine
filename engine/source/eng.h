@@ -23,3 +23,4 @@
 #include "physics/PhysicsManager.h"
 #include "physics/Collider.h"
 #include "physics/Rigidbody.h"
+#include "physics/KinematicCharacterController.h"

@@ -6,12 +6,17 @@
 
 namespace eng
 {
+    void PlayerControllerComponent::Init()
+    {
+        m_kinematicController = std::make_unique<KinematicCharacterController>(0.4f, 1.2f);
+    }
+
     void PlayerControllerComponent::Update(float DeltaTime)
     {
         auto& inputManager = Engine::GetInstance().GetInputManager();
         auto rotation = m_owner->GetRotation();
         
-        if (inputManager.IsMouseButtonPressed(GLFW_MOUSE_BUTTON_LEFT))
+        if (inputManager.IsMousePositionChanged())
         {
             const auto& mousePositionOld = inputManager.GetMousePositionPrev();
             const auto& mousePositionNew = inputManager.GetMousePositionCurrent();
@@ -21,43 +26,60 @@ namespace eng
             
             //Rotation around Y axis
             float yAngle = -deltaX * m_sensitivity * DeltaTime;
-            glm::quat rotationY = glm::angleAxis(yAngle, glm::vec3(0.0f, 1.0f, 0.0f));
+            m_yRotation += yAngle;
+            glm::quat rotationY = glm::angleAxis(glm::radians(m_yRotation), glm::vec3(0.0f, 1.0f, 0.0f));
             
             //Rotation around X axis
             float xAngle = -deltaY * m_sensitivity * DeltaTime;
-            glm::vec3 right = rotation * glm::vec3(1.0f, 0.0f, 0.0f);
-            glm::quat rotationX = glm::angleAxis(xAngle, right);
+            m_xRotation += xAngle;
+            m_xRotation = glm::clamp(m_xRotation, -89.0f, 89.0f);
+            glm::quat rotationX = glm::angleAxis(glm::radians(m_xRotation), glm::vec3(1.0f, 0.0f, 0.0f));
             
-            glm::quat deltaRotation = rotationX * rotationY;
-            rotation = glm::normalize(deltaRotation * rotation);
+            rotation = glm::normalize(rotationY * rotationX);
             
             m_owner->SetRotation(rotation);
         }
         
         glm::vec3 forward = rotation * glm::vec3(0.0f, 0.0f, -1.0f);
-        glm::vec3 right = rotation * glm::vec3(1.0f, 0.0f, 0.0f);
+        forward.y = 0.0f;
+        if (glm::dot(forward, forward) > 0.0f)
+        {
+            forward = glm::normalize(forward);
+        }
         
-        auto position = m_owner->GetPosition();
+        glm::vec3 right = glm::normalize(glm::cross(forward, glm::vec3(0.0f, 1.0f, 0.0f)));
         
+        glm::vec3 movementDirection(0.0f);
         // Left/Right movement
         if (inputManager.IsKeyPressed(GLFW_KEY_A))
         {
-            position -= right * m_speed * DeltaTime;
+            movementDirection -= right;
         }
         else if (inputManager.IsKeyPressed(GLFW_KEY_D))
         {
-            position += right * m_speed * DeltaTime;
+            movementDirection += right;
         }
         // Forward/Backward movement
         if (inputManager.IsKeyPressed(GLFW_KEY_W))
         {
-            position += forward * m_speed * DeltaTime;
+            movementDirection += forward;
         }
         else if (inputManager.IsKeyPressed(GLFW_KEY_S))
         {
-            position -= forward * m_speed * DeltaTime;
+            movementDirection -= forward;
         }
-        m_owner->SetPosition(position);
         
+        if (inputManager.IsKeyPressed(GLFW_KEY_SPACE))
+        {
+            m_kinematicController->Jump(glm::vec3(0.0f, 5.0f, 0.0f));
+        }
+        
+        if (glm::dot(movementDirection, movementDirection) > 0.0f)
+        {
+            movementDirection = glm::normalize(movementDirection);
+        }
+        
+        m_kinematicController->Walk(movementDirection * m_speed * DeltaTime);
+        m_owner->SetPosition(m_kinematicController->GetPosition());
     }
 }

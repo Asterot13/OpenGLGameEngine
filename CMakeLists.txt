@@ -12,6 +12,8 @@ set(PROJECT_SOURCE_FILES
         source/StbImage.cpp
         source/BaseObjects/TestObject.h
         source/BaseObjects/TestObject.cpp
+        source/BaseObjects/Player.h
+        source/BaseObjects/Player.cpp
 )
 
 add_executable(${PROJECT_NAME} ${PROJECT_SOURCE_FILES})

@@ -1,6 +1,6 @@
 ﻿#include "Game.h"
 #include "BaseObjects/TestObject.h"
-#include "scene/components/CameraComponent.h"
+#include "BaseObjects/Player.h"
 #include <iostream>
 
 bool Game::Init()
@@ -11,12 +11,10 @@ bool Game::Init()
 	
 	auto texture = eng::Texture::LoadFromFile("brick.png");
 	
-	auto Camera = m_scene->CreateGameObject("Camera");
-	Camera->AddComponent(new eng::CameraComponent());
-	Camera->AddComponent(new eng::PlayerControllerComponent());
-	Camera->SetPosition(glm::vec3(0.0f, 0.0f, 2.0f));
+	auto player = m_scene->CreateGameObject<Player>("Player");
+	player->Init();
+	m_scene->SetMainCamera(player);
 	
-	m_scene->SetMainCamera(Camera);
 	m_scene->CreateGameObject<TestObject>("TestObject");
 	
     auto material = eng::Material::Load("materials/brick.mat");
@@ -39,26 +37,6 @@ bool Game::Init()
 	
 	auto SuzanneGameObject = eng::GameObject::LoadGLTF("models/Suzanne/Suzanne.gltf");
 	SuzanneGameObject->SetPosition(glm::vec3(0.0f, 0.0f, -5.0f));
-	
-	auto Gun = eng::GameObject::LoadGLTF("models/sten_gunmachine_carbine/scene.gltf");
-	Gun->SetParent(Camera);
-	Gun->SetPosition(glm::vec3(0.75f, -0.5f, -0.75f));
-	Gun->SetScale(glm::vec3(-1.0f, 1.0f, 1.0f));
-	
-	if (auto animComp = Gun->GetComponent<eng::AnimationComponent>())
-	{
-		if (auto bullet = Gun->FindChildByName("bullet_33"))
-		{
-			bullet->SetActive(false);
-		}
-		
-		if (auto fire = Gun->FindChildByName("BOOM_35"))
-		{
-			fire->SetActive(false);
-		}
-		
-		animComp->Play("shoot");
-	}
 	
 	auto Light = m_scene->CreateGameObject("Light");
 	auto LightComponent = new eng::LightComponent();
@@ -84,8 +62,6 @@ bool Game::Init()
 	auto boxCollider = std::make_shared<eng::BoxCollider>(glm::vec3(1.0f));
 	auto boxBody = std::make_shared<eng::RigidBody>(eng::RigidBodyType::Dynamic, boxCollider, 5.0f, 0.5f);
 	boxObject->AddComponent(new eng::PhysicsComponent(boxBody));
-	
-	Camera->SetPosition(glm::vec3(0.0f, 1.0f, 7.0f));
 	
 	return true;
 }

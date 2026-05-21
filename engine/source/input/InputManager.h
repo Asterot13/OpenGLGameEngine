@@ -26,6 +26,9 @@ namespace eng
       void SetMousePositionCurrent(const glm::vec2& position);
       const glm::vec2 GetMousePositionCurrent() const;
       
+      void SetMousePositionChanged(bool changed);
+      bool IsMousePositionChanged() const;
+      
     private:
       friend class Engine;
       
@@ -34,5 +37,7 @@ namespace eng
       
       glm::vec2 m_mousePositionPrev = glm::vec2(0.0f);
       glm::vec2 m_mousePositionCurrent = glm::vec2(0.0f);
+      
+      bool m_MousePositionChanged = false;
     };
 }

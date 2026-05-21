@@ -46,18 +46,19 @@ namespace eng
     class AnimationComponent : public Component
     {
         COMPONENT(AnimationComponent)
+        
     public:
         void Update(float DeltaTime) override;
         void SetClip(AnimationClip* clip);
         void RegisterAnimationClip(const std::string& name, const std::shared_ptr<AnimationClip>& clip);
         void Play(const std::string& name, bool loop = true);
+        bool IsPlaying() const;
         
     private:
         void BuildBindings();
         glm::vec3 Interpolate(const std::vector<KeyFrameVec3>& keyFrames, float time);
         glm::quat Interpolate(const std::vector<KeyFrameQuat>& keyFrames, float time);
         
-    private:
         AnimationClip* m_clip = nullptr;
         float m_time = 0.0f;
         bool m_loop = true;

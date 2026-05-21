@@ -39,6 +39,8 @@ namespace eng
         auto& inputManager = Engine::GetInstance().GetInputManager();
         inputManager.SetMousePositionPrev(inputManager.GetMousePositionCurrent());
         inputManager.SetMousePositionCurrent(glm::vec2(static_cast<float>(xpos), static_cast<float>(ypos)));
+        
+        inputManager.SetMousePositionChanged(true);
     }
     
     Engine& Engine::GetInstance()
@@ -76,6 +78,7 @@ namespace eng
         glfwSetKeyCallback(m_window, keyCallBack);
         glfwSetMouseButtonCallback(m_window, mouseButtonCallBack);
         glfwSetCursorPosCallback(m_window, cursorPositionCallBack);
+        glfwSetInputMode(m_window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
         
         glfwMakeContextCurrent(m_window);
         
@@ -143,6 +146,7 @@ namespace eng
             glfwSwapBuffers(m_window);
             
             m_inputManager.SetMousePositionPrev(m_inputManager.GetMousePositionCurrent());
+            m_inputManager.SetMousePositionChanged(false);
         }
     }
 

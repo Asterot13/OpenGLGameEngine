@@ -2,8 +2,8 @@
 #include <GL/glew.h>
 #include <cstdint>
 #include <memory>
-#include <string>
 #include <vector>
+#include <glm/vec3.hpp>
 #include "graphics/VertexLayout.h"
 
 namespace eng
@@ -17,7 +17,7 @@ namespace eng
         Mesh& operator= (const Mesh&) = delete;
         ~Mesh();
         
-        static std::shared_ptr<Mesh> CreateCube();
+        static std::shared_ptr<Mesh> CreateBox(glm::vec3& extents = glm::vec3(1.0f));
         
         void Bind();
         void Draw();

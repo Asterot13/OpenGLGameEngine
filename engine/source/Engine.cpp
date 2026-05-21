@@ -87,6 +87,7 @@ namespace eng
         }
         
         m_graphicsAPI.Init();
+        m_physicsManager.Init();
         return m_application->Init();
     }
 
@@ -105,6 +106,8 @@ namespace eng
             auto currentTime = std::chrono::high_resolution_clock::now();
             float DeltaTime = std::chrono::duration<float>(currentTime - m_lastTimeTime).count();
             m_lastTimeTime = currentTime;
+            
+            m_physicsManager.Update(DeltaTime);
             
             m_application->Update(DeltaTime);
             
@@ -187,6 +190,11 @@ namespace eng
     TextureManager& Engine::GetTextureManager()
     {
         return m_textureManager;
+    }
+
+    PhysicsManager& Engine::GetPhysicsManager()
+    {
+        return m_physicsManager;
     }
 
     Scene* Engine::GetScene() const

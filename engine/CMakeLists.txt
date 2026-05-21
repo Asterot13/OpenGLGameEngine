@@ -49,12 +49,27 @@ set(PROJECT_SOURCE_FILES
         source/scene/components/LightComponent.cpp
         source/scene/components/AnimationComponent.h
         source/scene/components/AnimationComponent.cpp
+        source/scene/components/PhysicsComponent.h
+        source/scene/components/PhysicsComponent.cpp
         source/io/FileSystem.h
         source/io/FileSystem.cpp
-        #source/eng.h
+        source/physics/PhysicsManager.h
+        source/physics/PhysicsManager.cpp
+        source/physics/Collider.h
+        source/physics/Collider.cpp
+        source/physics/RigidBody.h
+        source/physics/RigidBody.cpp
+        source/eng.h
 )
 
 add_library(${PROJECT_NAME} ${PROJECT_SOURCE_FILES})
+
+# Include Bullet Physics
+option(BUILD_UNIT_TESTS OFF)
+option(BUILD_BULLET2_DEMOS OFF)
+option(BUILD_EXTRAS OFF)
+option(BUILD_SHARED_LIBS OFF)
+add_subdirectory(thirdparty/bullet3-3.25)
 
 target_include_directories(${PROJECT_NAME}
         PUBLIC
@@ -66,6 +81,7 @@ target_include_directories(${PROJECT_NAME}
         ${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/stb_image
         ${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/json
         ${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/cgltf
+        ${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/bullet3-3.25/src
 )
 
 # Add GLFW library
@@ -88,4 +104,7 @@ target_link_libraries(${PROJECT_NAME}
     glew_s 
     opengl32
     glm
+    LinearMath
+    BulletCollision
+    BulletDynamics
 )

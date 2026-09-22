@@ -1,7 +1,5 @@
 ﻿#include "AnimationComponent.h"
-
 #include <cmath>
-
 #include "Engine.h"
 #include "scene/GameObject.h"
 

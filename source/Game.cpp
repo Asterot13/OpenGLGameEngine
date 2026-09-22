@@ -3,8 +3,14 @@
 #include "BaseObjects/Player.h"
 #include <iostream>
 
+void Game::RegisterTypes()
+{
+	Player::Register();
+}
+
 bool Game::Init()
 {
+#if 0
 	m_scene = new eng::Scene();
 	eng::Engine::GetInstance().SetScene(m_scene);
 	auto& fileSystem = eng::Engine::GetInstance().GetFileSystem();
@@ -62,6 +68,17 @@ bool Game::Init()
 	auto boxCollider = std::make_shared<eng::BoxCollider>(glm::vec3(1.0f));
 	auto boxBody = std::make_shared<eng::RigidBody>(eng::RigidBodyType::Dynamic, boxCollider, 5.0f, 0.5f);
 	boxObject->AddComponent(new eng::PhysicsComponent(boxBody));
+#endif
+	
+	auto scene = eng::Scene::Load("scenes/scene.sc");
+	if (!scene || !scene->GetMainCamera() ||
+		!scene->GetMainCamera()->GetComponent<eng::CameraComponent>())
+	{
+		std::cerr << "Failed to load scenes/scene.sc or its main camera" << std::endl;
+		return false;
+	}
+	m_scene = scene;
+	eng::Engine::GetInstance().SetScene(scene);
 	
 	return true;
 }

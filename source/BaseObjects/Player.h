@@ -3,8 +3,9 @@
 
 class Player : public eng::GameObject
 {
+    GAMEOBJECT(Player)
 public:
-    void Init();
+    void Init() override;
     void Update(float DeltaTime) override;
     
 private:

@@ -56,6 +56,9 @@ namespace eng
             return false;
         }
         
+        Scene::RegisterTypes();
+        m_application->RegisterTypes();
+        
         if (!glfwInit())
         {
             std::cout << "Failed to initialize GLFW" << std::endl;
@@ -156,6 +159,7 @@ namespace eng
         {
             m_application->Destroy();
             m_application.reset();
+            m_currentScene.reset();
             glfwTerminate();
             m_window = nullptr;
         }
@@ -206,8 +210,8 @@ namespace eng
         return m_currentScene.get();
     }
 
-    void Engine::SetScene(Scene* scene)
+    void Engine::SetScene(const std::shared_ptr<Scene>& scene)
     {
-        m_currentScene.reset(scene);
+        m_currentScene = scene;
     }
 }

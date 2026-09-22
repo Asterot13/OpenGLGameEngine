@@ -38,7 +38,7 @@ namespace eng
         PhysicsManager& GetPhysicsManager();
         
         Scene* GetScene() const;
-        void SetScene(Scene* scene);
+        void SetScene(const std::shared_ptr<Scene>& scene);
         
     private:
         std::unique_ptr<Application> m_application;
@@ -50,6 +50,6 @@ namespace eng
         FileSystem m_fileSystem;
         TextureManager m_textureManager;
         PhysicsManager m_physicsManager;
-        std::unique_ptr<Scene> m_currentScene;
+        std::shared_ptr<Scene> m_currentScene;
     };   
 }

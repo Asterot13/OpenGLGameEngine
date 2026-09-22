@@ -8,7 +8,7 @@ namespace eng
 {
     void PlayerControllerComponent::Init()
     {
-        m_kinematicController = std::make_unique<KinematicCharacterController>(0.4f, 1.2f);
+        m_kinematicController = std::make_unique<KinematicCharacterController>(0.4f, 1.2f, m_owner->GetWorldPosition());
     }
 
     void PlayerControllerComponent::Update(float DeltaTime)

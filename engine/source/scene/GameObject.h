@@ -14,6 +14,8 @@ namespace eng
     {
     public:
         virtual ~GameObject() = default;
+        virtual void Init();
+        virtual void LoadProperties(const nlohmann::json& properties);
         virtual void Update(float DeltaTime);
         const std::string& GetName() const;
         void SetName(const std::string& name);
@@ -48,14 +50,19 @@ namespace eng
         const glm::vec3 GetPosition() const;
         glm::vec3 GetWorldPosition() const;
         void SetPosition(const glm::vec3& position);
+        void SetWorldPosition(const glm::vec3& position);
+        
         // Transform rotation
         const glm::quat GetRotation() const;
+        glm::quat GetWorldRotation() const;
         void SetRotation(const glm::quat& rotation);
+        void SetWorldRotation(const glm::quat& rotation);
+        
         // Transform scale
         const glm::vec3 GetScale() const;
         void SetScale(const glm::vec3& scale);
         
-        static GameObject* LoadGLTF(const std::string& path);
+        static GameObject* LoadGLTF(const std::string& path, Scene* gameScene);
         
         glm::mat4 GetLocalTransform() const;
         glm::mat4 GetWorldTransform() const;
@@ -78,4 +85,41 @@ namespace eng
         
         friend class Scene;
     };
+    
+    class ObjectCreatorBase
+    {
+    public:
+        virtual ~ObjectCreatorBase() = default;
+        virtual GameObject* CreateObject() = 0;
+    };
+    
+    template<typename T>
+    class ObjectCreator : public ObjectCreatorBase
+    {
+    public:
+        GameObject* CreateObject() override
+        {
+            return new T();
+        }
+    };
+    
+    class GameObjectFactory
+    {
+    public:
+        static GameObjectFactory& GetInstance();
+        template<typename T>
+        void RegisterObject(const std::string& name)
+        {
+            m_objectCreators.emplace(name, std::make_unique<ObjectCreator<T>>());
+        }
+        
+        GameObject* CreateGameObject(const std::string& typeName);
+        
+    private:
+        std::unordered_map<std::string, std::unique_ptr<ObjectCreatorBase>> m_objectCreators;
+    };
+    
+#define GAMEOBJECT(ObjectClass) \
+public: \
+    static void Register() { eng::GameObjectFactory::GetInstance().RegisterObject<ObjectClass>(std::string(#ObjectClass)); }
 }

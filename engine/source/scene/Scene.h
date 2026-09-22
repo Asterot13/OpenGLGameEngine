@@ -3,7 +3,7 @@
 #include <vector>
 #include <memory>
 #include <type_traits>
-
+#include <nlohmann/json.hpp>
 #include "Common.h"
 #include "scene/GameObject.h"
 
@@ -12,16 +12,20 @@ namespace eng
     class Scene
     {
     public:
+        static void RegisterTypes();
         void Update(float DeltaTime);
         void Clear();
         bool SetParent(GameObject* game_object, GameObject* parent);
+        
         GameObject* CreateGameObject(const std::string& name, GameObject* parent = nullptr);
+        GameObject* CreateGameObject(const std::string& type, const std::string& name, GameObject* parent = nullptr);
         
         //Camera
         void SetMainCamera(GameObject* camera);
         GameObject* GetMainCamera() const;
         
         std::vector<LightData> CollectLights();
+        static std::shared_ptr<Scene> Load(const std::string& path);
 
         template<typename T, typename = typename std::enable_if_t<std::is_base_of_v<GameObject, T>>>
         T* CreateGameObject(const std::string& name, GameObject* parent = nullptr)
@@ -37,6 +41,7 @@ namespace eng
         
     private:
         void CollectLightsRecursive(GameObject* obj, std::vector<LightData>& lights);
+        void LoadObject(const nlohmann::json& json, GameObject* parent);
         
     private:
         std::vector<std::unique_ptr<GameObject>> m_gameObjects;

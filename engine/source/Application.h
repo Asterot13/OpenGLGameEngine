@@ -6,6 +6,7 @@ namespace eng
     {
     public:
         virtual bool Init() = 0;
+        virtual void RegisterTypes();
         // Delta time in seconds
         virtual void Update(float DeltaTime) = 0;
         virtual void Destroy() = 0;

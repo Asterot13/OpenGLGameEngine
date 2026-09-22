@@ -7,7 +7,7 @@
 
 namespace eng
 {
-    KinematicCharacterController::KinematicCharacterController(float radius, float height)
+    KinematicCharacterController::KinematicCharacterController(float radius, float height, const glm::vec3& position)
         : m_radius(radius), m_height(height)
     {
         auto World = Engine::GetInstance().GetPhysicsManager().GetWorld();
@@ -16,7 +16,7 @@ namespace eng
         
         btTransform start;
         start.setIdentity();
-        start.setOrigin(btVector3(0, 2.0f, 0));
+        start.setOrigin(btVector3(position.x, position.y, position.z));
         
         m_ghostObject->setWorldTransform(start);
         m_ghostObject->setCollisionShape(Capsule);

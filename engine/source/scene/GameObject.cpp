@@ -18,6 +18,15 @@
 
 namespace eng
 {
+    void GameObject::Init()
+    {
+        
+    }
+
+    void GameObject::LoadProperties(const nlohmann::json& properties)
+    {
+    }
+
     void GameObject::Update(float DeltaTime)
     {
         if (!m_isActive)
@@ -141,14 +150,56 @@ namespace eng
         m_position = position;
     }
 
+    void GameObject::SetWorldPosition(const glm::vec3& position)
+    {
+        if (m_parent)
+        {
+            glm::mat4 parentWorldTransform = m_parent->GetWorldTransform();
+            glm::mat4 invParentWorldTransform = glm::inverse(parentWorldTransform);
+            glm::vec4 localPos = invParentWorldTransform * glm::vec4(position, 1.0f);
+            SetPosition(glm::vec3(localPos) / localPos.w);       
+        }
+        else
+        {
+            SetPosition(position);
+        }
+    }
+
     const glm::quat GameObject::GetRotation() const
     {
         return m_rotation;      
     }
 
+    glm::quat GameObject::GetWorldRotation() const
+    {
+        if (m_parent)
+        {
+            return m_parent->GetWorldRotation() * m_rotation;
+        }
+        else
+        {
+            return m_rotation;
+        }
+    }
+
     void GameObject::SetRotation(const glm::quat& rotation)
     {
         m_rotation = rotation;      
+    }
+
+    void GameObject::SetWorldRotation(const glm::quat& rotation)
+    {
+        if (m_parent)
+        {
+            glm::quat parentWorldRot = m_parent->GetWorldRotation();
+            glm::quat invParentWorldRot = glm::inverse(parentWorldRot);
+            glm::quat newlocalRot = invParentWorldRot * rotation;
+            SetRotation(newlocalRot);   
+        }
+        else
+        {
+            SetRotation(rotation);
+        }
     }
 
     const glm::vec3 GameObject::GetScale() const
@@ -422,10 +473,15 @@ namespace eng
         }
     };
     
-    GameObject* GameObject::LoadGLTF(const std::string& path)
+    GameObject* GameObject::LoadGLTF(const std::string& path, Scene* gameScene)
     {
         auto content = Engine::GetInstance().GetFileSystem().LoadAssetFileText(path);
         if (content.empty())
+        {
+            return nullptr;
+        }
+        
+        if (!gameScene)
         {
             return nullptr;
         }
@@ -449,7 +505,7 @@ namespace eng
             return nullptr;
         }
         
-        auto resultObject = Engine::GetInstance().GetScene()->CreateGameObject("Result");
+        auto resultObject = gameScene->CreateGameObject("Result");
         auto scene = &data->scenes[0];
         
         for (cgltf_size i = 0; i < scene->nodes_count; ++i)
@@ -591,5 +647,21 @@ namespace eng
         {
             return GetLocalTransform();
         }       
+    }
+
+    GameObjectFactory& GameObjectFactory::GetInstance()
+    {
+        static GameObjectFactory instance;
+        return instance;
+    }
+
+    GameObject* GameObjectFactory::CreateGameObject(const std::string& typeName)
+    {
+        auto it = m_objectCreators.find(typeName);
+        if (it != m_objectCreators.end())
+        {
+            return it->second->CreateObject();
+        }
+        return nullptr;
     }
 }

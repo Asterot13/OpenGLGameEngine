@@ -23,6 +23,7 @@ target_include_directories(${PROJECT_NAME}
         ${CMAKE_CURRENT_SOURCE_DIR}/engine/thirdparty/glew/include
         ${CMAKE_CURRENT_SOURCE_DIR}/engine/thirdparty/glm-1.0.1
         ${CMAKE_CURRENT_SOURCE_DIR}/engine/thirdparty/stb_image
+        ${CMAKE_CURRENT_SOURCE_DIR}/engine/thirdparty/json
 )
 
 # Add Engine library

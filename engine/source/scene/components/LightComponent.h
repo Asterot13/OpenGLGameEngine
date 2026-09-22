@@ -9,7 +9,7 @@ namespace eng
 		COMPONENT(LightComponent)
 	public:
 		void Update(float DeltaTime) override;
-		
+		void LoadProperties(const nlohmann::json& properties) override;
 		const glm::vec3& GetColor() const;
 		void SetColor(const glm::vec3& color);
 		

@@ -13,8 +13,11 @@ namespace eng
         PhysicsComponent() = default;
         PhysicsComponent(const std::shared_ptr<RigidBody>& rigidBody);
         
+        void LoadProperties(const nlohmann::json& properties) override;
         void Init() override;
         void Update(float DeltaTime) override;
+        
+        void SetRigidBody(const std::shared_ptr<RigidBody>& rigidBody);
         
     private:
         std::shared_ptr<RigidBody> m_rigidBody;

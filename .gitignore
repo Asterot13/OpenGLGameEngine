@@ -6,3 +6,6 @@ build/
 *.exe
 
 CMakeLists.txt.DotSettings.user
+
+# Audio engine uploads automaticaly
+/engine/thirdparty/miniaudio/

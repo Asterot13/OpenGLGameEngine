@@ -12,9 +12,10 @@ namespace eng
     public:
         void Init() override;
         void Update(float DeltaTime) override;
+        bool OnGround() const;
         
     private:
-        float m_sensitivity = 5.0f;
+        float m_sensitivity = 0.2f;
         float m_speed = 5.0f;
         float m_xRotation = 0.0f;
         float m_yRotation = 0.0f;

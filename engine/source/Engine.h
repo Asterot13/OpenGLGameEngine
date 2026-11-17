@@ -7,6 +7,7 @@
 #include "render/RenderQueue.h"
 #include "io/FileSystem.h"
 #include "physics/PhysicsManager.h"
+#include "audio/AudioManager.h"
 
 struct GLFWwindow;
 namespace eng
@@ -36,6 +37,7 @@ namespace eng
         FileSystem& GetFileSystem();
         TextureManager& GetTextureManager();
         PhysicsManager& GetPhysicsManager();
+        AudioManager& GetAudioManager();
         
         Scene* GetScene() const;
         void SetScene(const std::shared_ptr<Scene>& scene);
@@ -50,6 +52,7 @@ namespace eng
         FileSystem m_fileSystem;
         TextureManager m_textureManager;
         PhysicsManager m_physicsManager;
+        AudioManager m_audioManager;
         std::shared_ptr<Scene> m_currentScene;
     };   
 }

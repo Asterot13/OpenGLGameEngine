@@ -34,7 +34,17 @@
             "components":
             [
                 { "type": "CameraComponent" },
-                { "type": "PlayerControllerComponent" }
+                { "type": "PlayerControllerComponent" },
+                { "type": "AudioListenerComponent" },
+                { 
+                    "type": "AudioComponent",
+                    "audio":
+                    [
+                        { "name": "shoot", "filepath": "audio/shoot.wav" },
+                        { "name": "jump", "filepath": "audio/jump.wav" },
+                        { "name": "step", "filepath": "audio/step.wav"}
+                    ]
+                }
             ],
             "children":
             [

@@ -37,7 +37,7 @@ namespace eng
     void cursorPositionCallBack(GLFWwindow* window, double xpos, double ypos)
     {
         auto& inputManager = Engine::GetInstance().GetInputManager();
-        inputManager.SetMousePositionPrev(inputManager.GetMousePositionCurrent());
+        //inputManager.SetMousePositionPrev(inputManager.GetMousePositionCurrent());
         inputManager.SetMousePositionCurrent(glm::vec2(static_cast<float>(xpos), static_cast<float>(ypos)));
         
         inputManager.SetMousePositionChanged(true);
@@ -94,6 +94,11 @@ namespace eng
         
         m_graphicsAPI.Init();
         m_physicsManager.Init();
+        if (!m_audioManager.Init())
+        {
+            std::cerr << "Failed to initialize audio engine" << std::endl;
+            return false;
+        }
         return m_application->Init();
     }
 
@@ -203,6 +208,11 @@ namespace eng
     PhysicsManager& Engine::GetPhysicsManager()
     {
         return m_physicsManager;
+    }
+
+    AudioManager& Engine::GetAudioManager()
+    {
+        return m_audioManager;
     }
 
     Scene* Engine::GetScene() const

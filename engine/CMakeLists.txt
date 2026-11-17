@@ -1,8 +1,8 @@
-﻿cmake_minimum_required(VERSION 3.10)
+﻿cmake_minimum_required(VERSION 3.14)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
-project(Engine)
+project(Engine LANGUAGES C CXX)
 
 set(ASSETS_DIR "${CMAKE_SOURCE_DIR}/assets")
 
@@ -18,6 +18,10 @@ set(PROJECT_SOURCE_FILES
         source/GLTF.cpp
         source/Application.h
         source/Application.cpp
+        source/audio/AudioManager.h
+        source/audio/AudioManager.cpp
+        source/audio/Audio.h
+        source/audio/Audio.cpp
         source/input/InputManager.h
         source/input/InputManager.cpp
         source/graphics/ShaderProgram.h
@@ -49,6 +53,10 @@ set(PROJECT_SOURCE_FILES
         source/scene/components/LightComponent.cpp
         source/scene/components/AnimationComponent.h
         source/scene/components/AnimationComponent.cpp
+        source/scene/components/AudioComponent.h
+        source/scene/components/AudioComponent.cpp
+        source/scene/components/AudioListenerComponent.h
+        source/scene/components/AudioListenerComponent.cpp
         source/scene/components/PhysicsComponent.h
         source/scene/components/PhysicsComponent.cpp
         source/io/FileSystem.h
@@ -65,6 +73,42 @@ set(PROJECT_SOURCE_FILES
 )
 
 add_library(${PROJECT_NAME} ${PROJECT_SOURCE_FILES})
+
+# Include Audio
+set(FETCHCONTENT_BASE_DIR "${CMAKE_BINARY_DIR}/thirdparty")
+
+include(FetchContent)
+
+FetchContent_Declare(
+        miniaudio
+        GIT_REPOSITORY https://github.com/mackron/miniaudio.git
+        GIT_TAG 0.11.26
+        GIT_SHALLOW TRUE
+        SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/miniaudio"
+)
+
+FetchContent_MakeAvailable(miniaudio)
+
+if (UNIX AND NOT APPLE)
+    target_link_libraries(miniaudio INTERFACE dl pthread m)
+endif ()
+
+if (WIN32)
+    target_link_libraries(miniaudio INTERFACE winmm user32 ole32)
+endif ()
+
+if (APPLE)
+    find_library(COREAUDIO_FRAMEWORK CoreAudio)
+    find_library(AUDIOTOOLBOX_FRAMEWORK AudioToolBox)
+    find_library(AUDIOUNIT_FRAMEWORK AudioUnit)
+    find_library(COREFOUNDATION_FRAMEWORK CoreFoundation)
+    target_link_libraries(miniaudio INTERFACE
+        ${COREAUDIO_FRAMEWORK}
+        ${AUDIOTOOLBOX_FRAMEWORK}
+        ${AUDIOUNIT_FRAMEWORK}
+        ${COREFOUNDATION_FRAMEWORK}
+    )
+endif ()
 
 # Include Bullet Physics
 option(BUILD_UNIT_TESTS OFF)
@@ -109,4 +153,5 @@ target_link_libraries(${PROJECT_NAME}
     LinearMath
     BulletCollision
     BulletDynamics
+    miniaudio
 )

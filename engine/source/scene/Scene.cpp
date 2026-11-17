@@ -1,4 +1,4 @@
-﻿#include "Scene.h"
+﻿#include "scene/Scene.h"
 #include <algorithm>
 #include <nlohmann/json.hpp>
 #include "Engine.h"
@@ -8,6 +8,8 @@
 #include "components/CameraComponent.h"
 #include "components/PhysicsComponent.h"
 #include "components/PlayerControllerComponent.h"
+#include "components/AudioListenerComponent.h"
+#include "components/AudioComponent.h"
 
 namespace eng
 {
@@ -191,6 +193,8 @@ namespace eng
     void Scene::RegisterTypes()
     {
         AnimationComponent::Register();
+        AudioListenerComponent::Register();
+        AudioComponent::Register();
         CameraComponent::Register();
         LightComponent::Register();
         MeshComponent::Register();

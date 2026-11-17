@@ -25,12 +25,14 @@ namespace eng
             float deltaY = mousePositionNew.y - mousePositionOld.y;
             
             //Rotation around Y axis
-            float yAngle = -deltaX * m_sensitivity * DeltaTime;
+            //float yAngle = -deltaX * m_sensitivity * DeltaTime;
+            float yAngle = -deltaX * m_sensitivity;
             m_yRotation += yAngle;
             glm::quat rotationY = glm::angleAxis(glm::radians(m_yRotation), glm::vec3(0.0f, 1.0f, 0.0f));
             
             //Rotation around X axis
-            float xAngle = -deltaY * m_sensitivity * DeltaTime;
+            //float xAngle = -deltaY * m_sensitivity * DeltaTime;
+            float xAngle = -deltaY * m_sensitivity;
             m_xRotation += xAngle;
             m_xRotation = glm::clamp(m_xRotation, -89.0f, 89.0f);
             glm::quat rotationX = glm::angleAxis(glm::radians(m_xRotation), glm::vec3(1.0f, 0.0f, 0.0f));
@@ -81,5 +83,14 @@ namespace eng
         
         m_kinematicController->Walk(movementDirection * m_speed * DeltaTime);
         m_owner->SetPosition(m_kinematicController->GetPosition());
+    }
+
+    bool PlayerControllerComponent::OnGround() const
+    {
+        if (m_kinematicController)
+        {
+            return m_kinematicController->IsGrounded();
+        }
+        return false;
     }
 }

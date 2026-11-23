@@ -1,4 +1,6 @@
 ﻿#include "Player.h"
+
+#include "Bullet.h"
 #include "GLFW/glfw3.h"
 
 void Player::Init()
@@ -41,6 +43,25 @@ void Player::Update(float DeltaTime)
                 }
                 m_audioComponent->Play("shoot");
             }
+            
+            auto bullet = m_scene->CreateGameObject<Bullet>("Bullet");
+            auto material = eng::Material::Load("materials/suzanne.mat");
+            auto mesh = eng::Mesh::CreateSphere(0.1f, 32, 32);
+            bullet->AddComponent(new eng::MeshComponent(mesh, material));
+            
+            glm::vec3 pos = glm::vec3(0.0f);
+            if (auto child = FindChildByName("BOOM_35"))
+            {
+                pos = child->GetWorldPosition();
+            }
+            bullet->SetPosition(pos + m_rotation * glm::vec3(-0.2f, 0.2f, -1.75f));
+            
+            auto collider = std::make_shared<eng::SphereCollider>(0.1f);
+            auto rigidBody = std::make_shared<eng::RigidBody>(eng::RigidBodyType::Dynamic, collider, 2.0f, 0.1f);
+            bullet->AddComponent(new eng::PhysicsComponent(rigidBody));
+            
+            glm::vec3 frontVector = m_rotation * glm::vec3(0.0f, 0.0f, -1.0f) * 100.0f;
+            rigidBody->ApplyImpulse(frontVector);
         }
     }
     

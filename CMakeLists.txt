@@ -14,6 +14,8 @@ set(PROJECT_SOURCE_FILES
         source/BaseObjects/TestObject.cpp
         source/BaseObjects/Player.h
         source/BaseObjects/Player.cpp
+        source/BaseObjects/Bullet.h
+        source/BaseObjects/Bullet.cpp
 )
 
 add_executable(${PROJECT_NAME} ${PROJECT_SOURCE_FILES})

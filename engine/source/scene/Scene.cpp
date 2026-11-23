@@ -15,6 +15,23 @@ namespace eng
 {
     void Scene::Update(float DeltaTime)
     {
+        m_gameObjects.erase
+        (
+            std::remove_if(m_gameObjects.begin(), m_gameObjects.end(),
+                [](const std::unique_ptr<GameObject>& obj)
+                {
+                    return !obj.get()->IsAlive();
+                }),
+                m_gameObjects.end()
+        );
+        
+        for (auto obj : m_objectsToAdd)
+        {
+            SetParent(obj.first, obj.second);
+        }
+        m_objectsToAdd.clear();
+        
+        m_isUpdating = true;
         for (auto it = m_gameObjects.begin(); it != m_gameObjects.end();)
         {
             if ((*it)->IsAlive())
@@ -27,6 +44,7 @@ namespace eng
                 it = m_gameObjects.erase(it);
             }           
         }
+        m_isUpdating = false;
     }
     
     void Scene::Clear()
@@ -172,7 +190,14 @@ namespace eng
         
         obj->SetName(name);
         obj->m_scene = this;
-        SetParent(obj, parent);
+        if (m_isUpdating)
+        {
+            m_objectsToAdd.push_back(std::make_pair(obj, parent));
+        }
+        else
+        {
+            SetParent(obj, parent);   
+        }
         
         return obj;
     }
@@ -184,7 +209,14 @@ namespace eng
         {
             obj->SetName(name);
             obj->m_scene = this;
-            SetParent(obj, parent);
+            if (m_isUpdating)
+            {
+                m_objectsToAdd.push_back(std::make_pair(obj, parent));
+            }
+            else
+            {
+                SetParent(obj, parent);   
+            }
         }
         
         return obj;

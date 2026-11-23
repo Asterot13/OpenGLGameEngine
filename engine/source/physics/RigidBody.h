@@ -30,6 +30,8 @@ namespace eng
         void SetRotation(const glm::quat& rotation);
         glm::quat GetRotation() const;
         
+        void ApplyImpulse(const glm::vec3& impulse);
+        
     private:
         std::unique_ptr<btRigidBody> m_rigidBody;
         RigidBodyType m_type = RigidBodyType::Static;

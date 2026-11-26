@@ -2,13 +2,14 @@
 #include <memory>
 #include <glm/gtc/quaternion.hpp>
 #include <glm/glm.hpp>
+#include "CollisionObject.h"
 
 class btPairCachingGhostObject;
 class btKinematicCharacterController;
 
 namespace eng
 {
-    class KinematicCharacterController
+    class KinematicCharacterController : public CollisionObject
     {
     public:
         KinematicCharacterController(float radius, float height, const glm::vec3& position);

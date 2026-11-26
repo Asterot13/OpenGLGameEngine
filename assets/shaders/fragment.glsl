@@ -40,7 +40,7 @@ void main()
 
 	vec3 resLight = diffuse + specular + ambient;
 
-    //Apply texture with lightning, final color calculation
+    // Apply texture with lightning, final color calculation
 	vec4 texColor = texture(baseColorTexture, vUV);
     vec3 resColor = resLight * texColor.xyz * color;
     FragColor = vec4(resColor, 1.0);

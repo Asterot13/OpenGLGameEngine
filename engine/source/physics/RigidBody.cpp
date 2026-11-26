@@ -14,6 +14,8 @@ namespace eng
             return;
         }
         
+        m_colObjType = CollisionObjectType::Rigidbody;
+        
         btVector3 inertia(0, 0, 0);
         if (m_type == RigidBodyType::Dynamic && mass > 0.0f && m_collider->GetShape())
         {
@@ -33,6 +35,7 @@ namespace eng
         
         m_rigidBody = std::make_unique<btRigidBody>(rbInfo);
         m_rigidBody->setFriction(m_friction);
+        m_rigidBody->setUserPointer(this);
         
         if (m_type == RigidBodyType::Kinematic)
         {

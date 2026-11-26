@@ -80,6 +80,56 @@
             ]
         },
         {
+            "name": "JumpPlatform",
+            "type": "JumpPlatform",
+            "position":
+            {
+                "x": 5,
+                "y": 2,
+                "z": 5
+            },
+            "components":
+            [
+                { 
+                    "type": "MeshComponent",
+                    "mesh":
+                    {
+                        "type": "box",
+                        "x": 2,
+                        "y": 0.2,
+                        "z": 2
+                    },
+                    "material":
+                    {
+                        "path": "materials/checker.mat",
+                        "params":
+                        {
+                            "float3":
+                            [
+                                { "name": "color", "value0": 1, "value1": 0, "value2": 0 }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "type": "PhysicsComponent",
+                    "collider": 
+                    {
+                        "type": "box",
+                        "x": 2,
+                        "y": 0.2,
+                        "z": 2
+                    },
+                    "body" : 
+                    {
+                        "mass": 0,
+                        "friction": 0.5,
+                        "type": "static"
+                    }
+                }
+            ]
+        },
+        {
             "name": "Wall_Front",
             "position": 
             {
@@ -100,14 +150,7 @@
                     },
                     "material": 
                     {
-                        "path": "materials/checker.mat",
-                        "params":
-                        {
-                            "float3":
-                            [
-                                { "name": "color", "value0": 1, "value1": 0, "value2": 0 }
-                            ]
-                        }
+                        "path": "materials/checker.mat"
                     }
                 },
                 {

@@ -1,11 +1,15 @@
 ﻿#include "Game.h"
 #include "BaseObjects/TestObject.h"
 #include "BaseObjects/Player.h"
+#include "BaseObjects/JumpPlatform.h"
+#include "BaseObjects/Bullet.h"
 #include <iostream>
 
 void Game::RegisterTypes()
 {
 	Player::Register();
+	JumpPlatform::Register();
+	Bullet::Register();
 }
 
 bool Game::Init()

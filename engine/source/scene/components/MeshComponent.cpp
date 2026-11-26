@@ -110,6 +110,12 @@ namespace eng
                 auto mesh = Mesh::CreateBox(extents);
                 SetMesh(mesh);
             }
+            else if (type == "sphere")
+            {
+                float r = meshObj.value("r", 1.0f);
+                auto mesh = Mesh::CreateSphere(r);
+                SetMesh(mesh);
+            }
         }
     }
 

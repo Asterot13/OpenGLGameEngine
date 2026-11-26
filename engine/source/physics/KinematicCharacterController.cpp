@@ -14,6 +14,8 @@ namespace eng
         auto Capsule = new btCapsuleShape(m_radius, m_height);
         m_ghostObject = std::make_unique<btPairCachingGhostObject>();
         
+        m_colObjType = CollisionObjectType::KinematicCharacterController;
+        
         btTransform start;
         start.setIdentity();
         start.setOrigin(btVector3(position.x, position.y, position.z));
@@ -21,6 +23,7 @@ namespace eng
         m_ghostObject->setWorldTransform(start);
         m_ghostObject->setCollisionShape(Capsule);
         m_ghostObject->setCollisionFlags(m_ghostObject->getCollisionFlags() | btCollisionObject::CF_CHARACTER_OBJECT);
+        m_ghostObject->setUserPointer(this);
         
         World->getBroadphase()->getOverlappingPairCache()->setInternalGhostPairCallback(new btGhostPairCallback());
         

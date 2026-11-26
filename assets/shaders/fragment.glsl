@@ -2,12 +2,13 @@
 
 struct Light
 {
-    vec3 position;
+    vec3 direction;
     vec3 color;
 };
 
 uniform Light uLight;
 uniform vec3 uCameraPosition;
+uniform vec3 color = vec3(1.0);
 
 out vec4 FragColor;
 
@@ -22,7 +23,7 @@ void main()
 	vec3 normal = normalize(vNormal);
 
     // Calculate diffuse lighting
-    vec3 lightDir = normalize(uLight.position - vFragPos);
+    vec3 lightDir = normalize(-uLight.direction);
     float diff = max(dot(normal, lightDir), 0.0);
     vec3 diffuse = diff * uLight.color;
 
@@ -33,9 +34,14 @@ void main()
 	float specularStrength = 0.5f;
 	vec3 specular = specularStrength * spec * uLight.color;
 
-	vec3 result = diffuse + specular;
+    // Calculating ambient lighting
+    const float ambientStrength = 0.4f;
+    vec3 ambient = ambientStrength * uLight.color;
 
-    //Apply texture with lightning
+	vec3 resLight = diffuse + specular + ambient;
+
+    //Apply texture with lightning, final color calculation
 	vec4 texColor = texture(baseColorTexture, vUV);
-    FragColor = texColor * vec4(result, 1.0);
+    vec3 resColor = resLight * texColor.xyz * color;
+    FragColor = vec4(resColor, 1.0);
 }

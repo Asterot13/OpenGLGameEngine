@@ -25,7 +25,7 @@ namespace eng
             if (!lights.empty())
             {
                 auto Light = lights[0];
-                shaderProgram->SetUniform("uLight.position", Light.position);
+                shaderProgram->SetUniform("uLight.direction", glm::normalize(-Light.position));
                 shaderProgram->SetUniform("uLight.color", Light.color);
             }
             

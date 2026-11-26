@@ -80,40 +80,40 @@ namespace eng
         std::vector<float> vertices = 
         {
     	//front face
-        halfExtents.x, halfExtents.y, halfExtents.z, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f,
-        -halfExtents.x, halfExtents.y, halfExtents.z, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f,
+        halfExtents.x, halfExtents.y, halfExtents.z, 1.0f, 0.0f, 0.0f, extents.x, extents.y, 0.0f, 0.0f, 1.0f,
+        -halfExtents.x, halfExtents.y, halfExtents.z, 0.0f, 0.0f, 1.0f, 0.0f, extents.y, 0.0f, 0.0f, 1.0f,
         -halfExtents.x, -halfExtents.y, halfExtents.z, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f,
-        halfExtents.x, -halfExtents.y, halfExtents.z, 1.0f, 1.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f,
+        halfExtents.x, -halfExtents.y, halfExtents.z, 1.0f, 1.0f, 0.0f, extents.x, 0.0f, 0.0f, 0.0f, 1.0f,
         
     	//top face
-        halfExtents.x, halfExtents.y, -halfExtents.z, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f, 0.0f, 1.0f, 0.0f,
-        -halfExtents.x, halfExtents.y, -halfExtents.z, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f,
+        halfExtents.x, halfExtents.y, -halfExtents.z, 0.0f, 1.0f, 0.0f, extents.x, extents.z, 0.0f, 1.0f, 0.0f,
+        -halfExtents.x, halfExtents.y, -halfExtents.z, 0.0f, 0.0f, 1.0f, 0.0f, extents.z, 0.0f, 1.0f, 0.0f,
         -halfExtents.x, halfExtents.y, halfExtents.z, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f,
-        halfExtents.x, halfExtents.y, halfExtents.z, 1.0f, 1.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f,
+        halfExtents.x, halfExtents.y, halfExtents.z, 1.0f, 1.0f, 0.0f, extents.x, 0.0f, 0.0f, 1.0f, 0.0f,
     	
     	//right face
-    	halfExtents.x, halfExtents.y, -halfExtents.z, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f,
-		halfExtents.x, halfExtents.y, halfExtents.z, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f, 0.0f, 0.0f,
+    	halfExtents.x, halfExtents.y, -halfExtents.z, 0.0f, 1.0f, 0.0f, extents.z, extents.y, 1.0f, 0.0f, 0.0f,
+		halfExtents.x, halfExtents.y, halfExtents.z, 0.0f, 0.0f, 1.0f, 0.0f, extents.y, 1.0f, 0.0f, 0.0f,
 		halfExtents.x, -halfExtents.y, halfExtents.z, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f,
-		halfExtents.x, -halfExtents.y, -halfExtents.z, 1.0f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f, 0.0f,
+		halfExtents.x, -halfExtents.y, -halfExtents.z, 1.0f, 1.0f, 0.0f, extents.z, 0.0f, 1.0f, 0.0f, 0.0f,
     	
     	//left face
-		-halfExtents.x, halfExtents.y, halfExtents.z, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f, -1.0f, 0.0f, 0.0f,
-		-halfExtents.x, halfExtents.y, -halfExtents.z, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f, -1.0f, 0.0f, 0.0f,
+		-halfExtents.x, halfExtents.y, halfExtents.z, 0.0f, 1.0f, 0.0f, extents.z, extents.y, -1.0f, 0.0f, 0.0f,
+		-halfExtents.x, halfExtents.y, -halfExtents.z, 0.0f, 0.0f, 1.0f, 0.0f, extents.y, -1.0f, 0.0f, 0.0f,
 		-halfExtents.x, -halfExtents.y, -halfExtents.z, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f,
-		-halfExtents.x, -halfExtents.y, halfExtents.z, 1.0f, 1.0f, 0.0f, 1.0f, 0.0f, -1.0f, 0.0f, 0.0f,
+		-halfExtents.x, -halfExtents.y, halfExtents.z, 1.0f, 1.0f, 0.0f, extents.z, 0.0f, -1.0f, 0.0f, 0.0f,
     	
     	//bottom face
-		halfExtents.x, -halfExtents.y, halfExtents.z, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f, 0.0f, -1.0f, 0.0f,
-		-halfExtents.x, -halfExtents.y, halfExtents.z, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f, -1.0f, 0.0f,
+		halfExtents.x, -halfExtents.y, halfExtents.z, 0.0f, 1.0f, 0.0f, extents.x,extents.z, 0.0f, -1.0f, 0.0f,
+		-halfExtents.x, -halfExtents.y, halfExtents.z, 0.0f, 0.0f, 1.0f, 0.0f, extents.z, 0.0f, -1.0f, 0.0f,
 		-halfExtents.x, -halfExtents.y, -halfExtents.z, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, -1.0f, 0.0f,
-		halfExtents.x, -halfExtents.y, -halfExtents.z, 1.0f, 1.0f, 0.0f, 1.0f, 0.0f, 0.0f, -1.0f, 0.0f,
+		halfExtents.x, -halfExtents.y, -halfExtents.z, 1.0f, 1.0f, 0.0f, extents.x, 0.0f, 0.0f, -1.0f, 0.0f,
     	
     	//back face
-    	-halfExtents.x, halfExtents.y, -halfExtents.z, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f, 0.0f, 0.0f, -1.0f,
-		halfExtents.x, halfExtents.y, -halfExtents.z, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f, 0.0f, -1.0f,
+    	-halfExtents.x, halfExtents.y, -halfExtents.z, 0.0f, 1.0f, 0.0f, extents.x, extents.y, 0.0f, 0.0f, -1.0f,
+		halfExtents.x, halfExtents.y, -halfExtents.z, 0.0f, 0.0f, 1.0f, 0.0f, extents.y, 0.0f, 0.0f, -1.0f,
 		halfExtents.x, -halfExtents.y, -halfExtents.z, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, -1.0f,
-		-halfExtents.x, -halfExtents.y, -halfExtents.z, 1.0f, 1.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, -1.0f
+		-halfExtents.x, -halfExtents.y, -halfExtents.z, 1.0f, 1.0f, 0.0f, extents.x, 0.0f, 0.0f, 0.0f, -1.0f
         };
 
         std::vector<unsigned int> indices = 

@@ -70,7 +70,7 @@ bool Game::Init()
 	boxObject->AddComponent(new eng::PhysicsComponent(boxBody));
 #endif
 	
-	auto scene = eng::Scene::Load("scenes/scene.sc");
+	auto scene = eng::Scene::Load("scenes/TestLevel.sc");
 	if (!scene || !scene->GetMainCamera() ||
 		!scene->GetMainCamera()->GetComponent<eng::CameraComponent>())
 	{

@@ -151,7 +151,7 @@ namespace eng
 
             struct Light
             {
-                vec3 position;
+                vec3 direction;
                 vec3 color;
             };
 
@@ -171,7 +171,7 @@ namespace eng
                 vec3 normal = normalize(vNormal);
 
                 // Calculate diffuse lighting
-                vec3 lightDir = normalize(uLight.position - vFragPos);
+                vec3 lightDir = normalize(-uLight.direction);
                 float diff = max(dot(normal, lightDir), 0.0);
                 vec3 diffuse = diff * uLight.color;
 
@@ -182,7 +182,12 @@ namespace eng
 	            float specularStrength = 0.5f;
 	            vec3 specular = specularStrength * spec * uLight.color;
 
-	            vec3 result = diffuse + specular;
+	            // Ambient Light
+                const float ambientStrength = 0.4f;
+                vec3 ambient = ambientStrength * uLight.color;
+    
+
+	            vec3 result = diffuse + specular + ambient;
 
                 //Apply texture with lightning
 	            vec4 texColor = texture(baseColorTexture, vUV);

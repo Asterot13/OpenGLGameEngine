@@ -1,4 +1,5 @@
 ﻿#include "MeshComponent.h"
+#include <iostream>
 #include "Engine.h"
 #include "render/Material.h"
 #include "render/Mesh.h"
@@ -31,12 +32,68 @@ namespace eng
     {
         if (properties.contains("material"))
         {
-            const std::string& materialPath = properties.value("material", "");
-            auto material = Material::Load(materialPath);
-            if (material)
+            auto& materialObj = properties["material"];
+            const std::string path = materialObj.value("path", "");
+            auto material = Material::Load(path);
+            if (material && materialObj.contains("params"))
             {
-                SetMaterial(material);
+                auto& paramsObj = materialObj["params"];
+            
+                //floats
+                if (paramsObj.contains("float"))
+                {
+                    for (auto& floatParam : paramsObj["float"])
+                    {
+                        std::string name = floatParam.value("name", "");
+                        float value = floatParam.value("value", 0.0f);
+                        material->SetParam(name, value); 
+                    }
+                }
+                
+                //float2
+                if (paramsObj.contains("float2"))
+                {
+                    for (auto& floatParam : paramsObj["float2"])
+                    {
+                        std::string name = floatParam.value("name", "");
+                        float value0 = floatParam.value("value0", 0.0f);
+                        float value1 = floatParam.value("value1", 0.0f);
+                        material->SetParam(name, value0, value1);
+                    }
+                }
+                
+                //float3
+                if (paramsObj.contains("float3"))
+                {
+                    for (auto& floatParam : paramsObj["float3"])
+                    {
+                        std::string name = floatParam.value("name", "");
+                        float value0 = floatParam.value("value0", 0.0f);
+                        float value1 = floatParam.value("value1", 0.0f);
+                        float value2 = floatParam.value("value2", 0.0f);
+                        material->SetParam(name, glm::vec3(value0, value1, value2));
+                    }
+                }
+                
+                //textures
+                if (paramsObj.contains("textures"))
+                {
+                    for (auto& textureParam : paramsObj["textures"])
+                    {
+                        std::string name = textureParam.value("name", "");
+                        std::string texturePath = textureParam.value("path", textureParam.value("value", ""));
+                        auto texture = Texture::LoadFromFile(texturePath);
+                        if (!texture)
+                        {
+                            std::cerr << "Failed to load texture '" << texturePath << "' for material '" << path << "'\n";
+                            continue;
+                        }
+                        
+                        material->SetParam(name, texture); 
+                    }
+                }
             }
+            SetMaterial(material);
         }
         
         if (properties.contains("mesh"))

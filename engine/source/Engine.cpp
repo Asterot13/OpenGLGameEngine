@@ -94,11 +94,9 @@ namespace eng
         
         m_graphicsAPI.Init();
         m_physicsManager.Init();
-        if (!m_audioManager.Init())
-        {
-            std::cerr << "Failed to initialize audio engine" << std::endl;
-            return false;
-        }
+        m_renderQueue.Init();
+        m_audioManager.Init();
+ 
         return m_application->Init();
     }
 

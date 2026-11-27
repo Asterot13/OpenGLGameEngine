@@ -145,6 +145,17 @@ namespace eng
         return glm::vec3(hom) / hom.w;
     }
 
+    glm::vec2 GameObject::GetPosition2D() const
+    {
+        return glm::vec2(m_position);
+    }
+
+    glm::vec2 GameObject::GetWorldPosition2D() const
+    {
+        glm::vec4 hom = GetWorldTransform2D() * glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
+        return glm::vec3(hom) / hom.w;
+    }
+
     void GameObject::SetPosition(const glm::vec3& position)
     {
         m_position = position;
@@ -165,6 +176,11 @@ namespace eng
         }
     }
 
+    void GameObject::SetPosition2D(const glm::vec2& position)
+    {
+        m_position = glm::vec3(position, 0.0f);
+    }
+
     const glm::quat GameObject::GetRotation() const
     {
         return m_rotation;      
@@ -180,6 +196,11 @@ namespace eng
         {
             return m_rotation;
         }
+    }
+
+    float GameObject::GetRotation2D() const
+    {
+        return glm::angle(m_rotation);
     }
 
     void GameObject::SetRotation(const glm::quat& rotation)
@@ -202,16 +223,31 @@ namespace eng
         }
     }
 
+    void GameObject::SetRotation2D(float rotation)
+    {
+        m_rotation = glm::angleAxis(rotation, glm::vec3(0.0f, 0.0f, 1.0f));
+    }
+
     const glm::vec3 GameObject::GetScale() const
     {
         return m_scale;     
+    }
+
+    const glm::vec2 GameObject::GetScale2D() const
+    {
+        return glm::vec2(m_scale);
     }
 
     void GameObject::SetScale(const glm::vec3& scale)
     {
         m_scale = scale;     
     }
-    
+
+    void GameObject::SetScale2D(const glm::vec2& scale)
+    {
+        m_scale = glm::vec3(scale, 1.0f);
+    }
+
     void ParseGLTFNode(const cgltf_node* node, GameObject* parent, const std::filesystem::path& relativeFolderPath)
     {
         auto object = parent->GetScene()->CreateGameObject(node->name, parent);
@@ -637,6 +673,24 @@ namespace eng
         return mat;
     }
 
+    glm::mat4 GameObject::GetLocalTransform2D() const
+    {
+        glm::mat4 mat = glm::mat4(1.0f);
+        
+        const auto rotationZ = GetRotation2D();
+        float c = cos(rotationZ);
+        float s = sin(rotationZ);
+        
+        mat[0][0] = m_scale.x * c;
+        mat[0][1] = m_scale.y * s;
+        mat[1][0] = -m_scale.y * s;
+        mat[1][1] = m_scale.y * c;
+        mat[3][0] = m_position.x;
+        mat[3][1] = m_position.y;
+        
+        return mat;
+    }
+
     glm::mat4 GameObject::GetWorldTransform() const
     {
         if (m_parent)
@@ -647,6 +701,18 @@ namespace eng
         {
             return GetLocalTransform();
         }       
+    }
+
+    glm::mat4 GameObject::GetWorldTransform2D() const
+    {
+        if (m_parent)
+        {
+            return m_parent->GetWorldTransform2D() * GetLocalTransform2D();
+        }
+        else
+        {
+            return GetLocalTransform2D();
+        }
     }
 
     GameObjectFactory& GameObjectFactory::GetInstance()

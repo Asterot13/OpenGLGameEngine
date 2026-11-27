@@ -10,6 +10,7 @@
 #include "components/PlayerControllerComponent.h"
 #include "components/AudioListenerComponent.h"
 #include "components/AudioComponent.h"
+#include "components/SpriteComponent.h"
 
 namespace eng
 {
@@ -232,6 +233,7 @@ namespace eng
         MeshComponent::Register();
         PhysicsComponent::Register();
         PlayerControllerComponent::Register();
+        SpriteComponent::Register();
     }
 
     void Scene::SetMainCamera(GameObject* camera)

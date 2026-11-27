@@ -19,6 +19,7 @@ namespace eng
         
         static std::shared_ptr<Mesh> CreateBox(glm::vec3& extents = glm::vec3(1.0f));
         static std::shared_ptr<Mesh> CreateSphere(float radius = 1.0f, int sectors = 16, int stacks = 16);
+        static std::shared_ptr<Mesh> CreatePlane();
         
         void Bind();
         void Unbind();

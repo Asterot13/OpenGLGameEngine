@@ -257,6 +257,37 @@ namespace eng
     	return result;
     }
 
+    std::shared_ptr<Mesh> Mesh::CreatePlane()
+    {
+    	std::vector<float> vertices = 
+    	{
+    		1.0f, 1.0f,
+    		0.0f, 1.0f,
+    		0.0f, 0.0f,
+    		1.0f, 0.0f,
+    	};
+    	
+    	std::vector<unsigned int> indices =
+    	{
+    		0, 1, 2,
+    		0, 2, 3
+    	};
+    	
+    	eng::VertexLayout vertexLayout;
+    	
+    	// Position
+    	vertexLayout.elements.push_back({ 
+    		VertexElement::PositionIndex,
+    		2,
+    		GL_FLOAT,
+    		0
+    	});
+    	
+    	vertexLayout.stride = sizeof(float) * 2;
+    	auto result = std::make_shared<Mesh>(vertexLayout, vertices, indices);
+    	return result;
+    }
+
     void Mesh::Bind()
     {
         glBindVertexArray(m_VAO);

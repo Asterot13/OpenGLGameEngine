@@ -140,6 +140,7 @@ namespace eng
                     {
                         cameraData.viewMatrix = CameraComponent->GetViewMatrix();
                         cameraData.projectionMatrix = CameraComponent->GetProjectionMatrix(aspectRatio);
+                        cameraData.orthoMatrix = glm::ortho(0.0f, static_cast<float>(width), 0.0f, static_cast<float>(height));
                         cameraData.position = cameraObject->GetWorldPosition();
                     }
                 }

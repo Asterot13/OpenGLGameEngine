@@ -1,8 +1,8 @@
 ﻿{
     "shader":
     {
-        "vertex": "shaders/vertex.glsl",
-        "fragment": "shaders/fragment.glsl"
+        "vertex": "shaders/defaultVertex.glsl",
+        "fragment": "shaders/defaultFragment.glsl"
     },
     "params":
     {

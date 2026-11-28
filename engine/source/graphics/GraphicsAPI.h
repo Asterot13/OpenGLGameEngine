@@ -10,6 +10,14 @@ namespace eng
     class Material;
     class Mesh;
     
+    enum class BlendMode
+    {
+        Disabled,
+        Alpha,
+        Additive,
+        Multiply
+    };
+    
     class GraphicsAPI
     {
     public:
@@ -24,6 +32,8 @@ namespace eng
         
         void SetClearColor(float r, float g, float b, float a);
         void ClearBuffers();
+        void SetDepthTestEnabled(bool enable);
+        void SetBlendMode(BlendMode blendMode);
         
         const std::shared_ptr<ShaderProgram>& GetDefaultShaderProgram();
         const std::shared_ptr<ShaderProgram>& GetDefault2DShaderProgram();

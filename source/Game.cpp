@@ -74,15 +74,29 @@ bool Game::Init()
 	boxObject->AddComponent(new eng::PhysicsComponent(boxBody));
 #endif
 	
-	auto scene = eng::Scene::Load("scenes/TestLevel.sc");
-	if (!scene || !scene->GetMainCamera() ||
-		!scene->GetMainCamera()->GetComponent<eng::CameraComponent>())
-	{
-		std::cerr << "Failed to load scenes/scene.sc or its main camera" << std::endl;
-		return false;
-	}
-	m_scene = scene;
-	eng::Engine::GetInstance().SetScene(scene);
+	// auto scene = eng::Scene::Load("scenes/TestLevel.sc");
+	// m_scene = scene;
+	// eng::Engine::GetInstance().SetScene(scene);
+	
+	m_scene = std::make_shared<eng::Scene>();
+	eng::Engine::GetInstance().SetScene(m_scene);
+	
+	auto Sprite = m_scene->CreateGameObject("Sprite");
+	
+	auto SpriteComponent = new eng::SpriteComponent();
+	auto texture = eng::Texture::LoadFromFile("textures/brick.png");
+	SpriteComponent->SetTexture(texture);
+	SpriteComponent->SetSize(glm::vec2(200.0f, 100.0f));
+	SpriteComponent->SetUpperRightUV(glm::vec2(2.0f, 1.0f));
+	
+	Sprite->AddComponent(SpriteComponent);
+	Sprite->SetPosition2D(glm::vec2(500.0f, 500.0f));
+	Sprite->SetRotation2D(glm::radians(45.0f));
+	
+	auto Camera = m_scene->CreateGameObject("Camera");
+	auto CameraComponent = new eng::CameraComponent();
+	Camera->AddComponent(CameraComponent);
+	m_scene->SetMainCamera(Camera);
 	
 	return true;
 }
